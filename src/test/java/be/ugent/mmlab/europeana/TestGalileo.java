@@ -65,20 +65,6 @@ public class TestGalileo {
         }
     }
 
-    private void queryAndPrintResults(final String query) {
-        TDBStore store = new TDBStore(tempTDBDir.getAbsolutePath());
-        System.out.println("Query: " + query);
-        store.sparqSelectlQuery(query, new ResultProcessor() {
-            @Override
-            public void process(Map<String, RDFNode> varToNode) {
-                for (Map.Entry<String, RDFNode> stringRDFNodeEntry : varToNode.entrySet()) {
-                    System.out.println(stringRDFNodeEntry.getKey() + ": " + stringRDFNodeEntry.getValue());
-                }
-                System.out.println();
-            }
-        });
-    }
-
     @Test
     public void testGalileo() throws IOException, CompressorException, URISyntaxException {
         //if (!tempTDBDir.exists()) {
