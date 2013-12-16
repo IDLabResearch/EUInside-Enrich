@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- configuration for log4j 2.x -->
+
+<configuration>
+    <appenders>
+
+        <!-- example from other project; modify accordingly before use -->
+        <!--RollingFile
+                name="RFA"
+                fileName="logs/tweetCollector.log"
+                filePattern="logs/tweetCollector-%d{MM-dd-yyyy}-%i.log.gz">
+
+            <patternLayout>
+                <pattern>%d %p [%t] %C{1}: %m%n</pattern>
+            </patternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="250 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile -->
+
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <patternLayout>
+                <pattern>%d %p [%t] %C{1}(%L): %m%n</pattern>
+            </patternLayout>
+        </Console>
+    </appenders>
+
+    <loggers>
+        <root level="debug">
+            <!--appender-ref ref="RFA"/-->
+            <appender-ref ref="STDOUT"/>
+        </root>
+    </loggers>
+
+</configuration>
