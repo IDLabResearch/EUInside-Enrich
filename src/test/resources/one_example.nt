@@ -1,0 +1,69 @@
+<http://data.europeana.eu/item/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.europeana.eu/schemas/edm/ProvidedCHO> .
+<http://data.europeana.eu/item/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://xmlns.com/foaf/0.1/isPrimaryTopicOf> <http://www.europeana.eu/resolve/record/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> .
+<http://data.europeana.eu/item/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://xmlns.com/foaf/0.1/isPrimaryTopicOf> <http://data.europeana.eu/rm/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> .
+<http://data.europeana.eu/aggregation/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.openarchives.org/ore/terms/Aggregation> .
+<http://data.europeana.eu/aggregation/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.europeana.eu/schemas/edm/aggregatedCHO> <http://data.europeana.eu/item/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> .
+<http://data.europeana.eu/aggregation/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.europeana.eu/schemas/edm/dataProvider> "Museo Galileo - Istituto e Museo di Storia della Scienza" .
+<http://data.europeana.eu/aggregation/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.europeana.eu/schemas/edm/isShownAt> <http://catalogue.museogalileo.it/object/Eudiometer.html> .
+<http://data.europeana.eu/aggregation/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.europeana.eu/schemas/edm/object> <http://catalogue.museogalileo.it/images/cat/oggetti_300/5247_1652_0834-026_300.jpg> .
+<http://data.europeana.eu/aggregation/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.europeana.eu/schemas/edm/provider> "Museo Galileo - Istituto e Museo di Storia della Scienza" .
+<http://data.europeana.eu/aggregation/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/elements/1.1/rights> "\u00A9 Museo Galileo - Institute and Museum of the History of Science" .
+<http://data.europeana.eu/aggregation/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/elements/1.1/rights> "\u00A9 Museo Galileo - Istituto e Museo di Storia della Scienza" .
+<http://data.europeana.eu/aggregation/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.europeana.eu/schemas/edm/rights> <http://www.europeana.eu/rights/rr-f/> .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.openarchives.org/ore/terms/Proxy> .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.openarchives.org/ore/terms/proxyFor> <http://data.europeana.eu/item/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.openarchives.org/ore/terms/proxyIn> <http://data.europeana.eu/aggregation/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.europeana.eu/schemas/edm/type> "TEXT" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/elements/1.1/description> "Round-bottomed glass eudiometer built in the late eighteenth century on the model designed by Alessandro Volta. The top end carries a small hollow brass cylinder with slits and three radiating pointed rods. A glass cylinder is attached to the brass cylinder. A swiveling brass ring is fastened to to ..." .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/elements/1.1/description> "Eudiometro in vetro a base rotonda costruito verso la fine del diciottesimo secolo sul modello di quello ideato da Alessandro Volta. All&apos;estremit\u00E0 superiore \u00E8 posto un piccolo cilindro cavo di ottone, dotato di fessure e tre punte a raggiera, al quale \u00E8 fissato un cilindro di vetro. Superiormente ..." .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/elements/1.1/title> "Eudiometer" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/elements/1.1/title> "Eudiometro" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/terms/spatial> "London" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/terms/spatial> "Londra" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/terms/extent> "height 530 mm, diameter 120 mm" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/terms/extent> "altezza 530 mm, diametro 120 mm" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/elements/1.1/creator> "George Adams junior" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/terms/temporal> "late 18th cent." .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/terms/temporal> "fine sec. XVIII" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/terms/medium> "brass, glass" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/terms/medium> "ottone, vetro" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/elements/1.1/identifier> "urn:imss:instrument:016705" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/terms/isPartOf> "Lorraine collection" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/terms/isPartOf> "Collezioni lorenesi" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/terms/created> "late 18th cent." .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/terms/created> "fine sec. XVIII" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/elements/1.1/language> "eng" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/elements/1.1/language> "ita" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/elements/1.1/publisher> "Museo Galileo - Institute and Museum of the History of Science" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/elements/1.1/publisher> "Museo Galileo - Istituto e Museo di Storia della Scienza" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/elements/1.1/type> "Eudiometer" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/elements/1.1/type> "Eudiometro" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/terms/references> "http://catalogo.museogalileo.it/biography/AlessandroVolta.html" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/terms/references> "http://catalogo.museogalileo.it/biography/GeorgeAdamsJunior.html" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/terms/references> "http://catalogo.museogalileo.it/biography/MarsilioLandriani.html" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/terms/references> "http://catalogue.museogalileo.it/indepth/Eudiometer.html" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/terms/references> "http://catalogue.museogalileo.it/multimedia/Eudiometry.html" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/terms/references> "http://catalogue.museogalileo.it/multimedia/FromAlchemyToChemistry.html" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/terms/references> "http://catalogue.museogalileo.it/multimedia/ModernChemistry.html" .
+<http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/terms/references> "http://catalogue.museogalileo.it/gallery/EudiometerInv930a.html" .
+<http://data.europeana.eu/aggregation/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.europeana.eu/schemas/edm/EuropeanaAggregation> .
+<http://data.europeana.eu/aggregation/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.europeana.eu/schemas/edm/aggregatedCHO> <http://data.europeana.eu/item/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> .
+<http://data.europeana.eu/aggregation/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.openarchives.org/ore/terms/isDescribedBy> <http://data.europeana.eu/rm/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> .
+<http://data.europeana.eu/aggregation/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.openarchives.org/ore/terms/aggregates> <http://data.europeana.eu/aggregation/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> .
+<http://data.europeana.eu/aggregation/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/elements/1.1/creator> "Europeana" .
+<http://data.europeana.eu/aggregation/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.europeana.eu/schemas/edm/landingPage> <http://www.europeana.eu/portal/record/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7.html> .
+<http://data.europeana.eu/aggregation/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.europeana.eu/schemas/edm/preview> <http://europeanastatic.eu/api/image?uri=http%3A%2F%2Fcatalogue.museogalileo.it%2Fimages%2Fcat%2Foggetti_300%2F5247_1652_0834-026_300.jpg&size=FULL_DOC&type=TEXT> .
+<http://data.europeana.eu/aggregation/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.europeana.eu/schemas/edm/collectionName> "02301_Ag_IT_MG_catalogue" .
+<http://data.europeana.eu/aggregation/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.europeana.eu/schemas/edm/country> "italy" .
+<http://data.europeana.eu/aggregation/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.europeana.eu/schemas/edm/language> "it" .
+<http://data.europeana.eu/proxy/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.openarchives.org/ore/terms/Proxy> .
+<http://data.europeana.eu/proxy/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.openarchives.org/ore/terms/proxyFor> <http://data.europeana.eu/item/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> .
+<http://data.europeana.eu/proxy/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.openarchives.org/ore/terms/proxyIn> <http://data.europeana.eu/aggregation/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> .
+<http://data.europeana.eu/rm/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.openarchives.org/ore/terms/ResourceMap> .
+<http://data.europeana.eu/rm/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://xmlns.com/foaf/0.1/primaryTopic> <http://data.europeana.eu/item/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> .
+<http://data.europeana.eu/rm/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.openarchives.org/ore/terms/describes> <http://data.europeana.eu/aggregation/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> .
+<http://data.europeana.eu/rm/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://www.w3.org/1999/xhtml/vocab#license> <http://creativecommons.org/publicdomain/zero/1.0/> .
+<http://data.europeana.eu/rm/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://creativecommons.org/ns#useGuidelines> <http://www.europeana.eu/rights/metadata-usage-guidelines/> .
+<http://data.europeana.eu/rm/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/elements/1.1/publisher> "Europeana" .
+<http://data.europeana.eu/rm/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/elements/1.1/contributor> "Museo Galileo - Istituto e Museo di Storia della Scienza" .
+<http://data.europeana.eu/rm/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7> <http://purl.org/dc/elements/1.1/contributor> "Museo Galileo - Istituto e Museo di Storia della Scienza" .

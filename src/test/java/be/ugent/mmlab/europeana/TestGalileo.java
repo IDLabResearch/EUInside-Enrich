@@ -1,12 +1,7 @@
 package be.ugent.mmlab.europeana;
 
 import be.ugent.mmlab.europeana.enrichment.Enricher;
-import be.ugent.mmlab.europeana.kb.TDB.ResultProcessor;
 import be.ugent.mmlab.europeana.kb.TDB.TDBStore;
-import com.hp.hpl.jena.query.ReadWrite;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.NodeIterator;
-import com.hp.hpl.jena.rdf.model.RDFNode;
 import org.apache.commons.compress.compressors.CompressorException;
 import org.junit.Test;
 
@@ -14,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Map;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
@@ -31,6 +25,12 @@ public class TestGalileo {
         System.out.println("Temporary TDB store: " + tempTDBDir);
     }
 
+    private void loadTriplesFromResource(final String resource) throws IOException, CompressorException {
+        URL resourceFileUrl = getClass().getClassLoader().getResource(resource);
+        assertNotNull("Resource " + resource + " not found!", resourceFileUrl);
+        loadTriplesFromFile(resourceFileUrl.getFile());
+    }
+
     private void loadTriplesFromFile(final String tripleFile) throws IOException, CompressorException {
         if (tempTDBDir.exists()) {
             deleteRecursive(tempTDBDir);
@@ -39,8 +39,6 @@ public class TestGalileo {
         System.out.println("Creating temporary TDB store");
         TDBStore store = new TDBStore(tempTDBDir.getAbsolutePath());
 
-        /*URL tripleFileUrl = getClass().getClassLoader().getResource(tripleFile);
-        assertNotNull("Resource " + tripleFile + " not found!", tripleFileUrl);*/
         System.out.println("Reading triples from " + tripleFile);
         String type = tripleFile.contains(".rdf") ? "RDF/XML" : "N-TRIPLE";
         store.addFromFile(tripleFile, type);
@@ -68,7 +66,7 @@ public class TestGalileo {
     @Test
     public void testGalileo() throws IOException, CompressorException, URISyntaxException {
         //if (!tempTDBDir.exists()) {
-            loadTriplesFromFile("/home/ghaesen/data/europeana/galileo/one_example.rdf");
+        loadTriplesFromResource("one_example.rdf");
         //}
 
         TDBStore store = new TDBStore(tempTDBDir.getAbsolutePath());

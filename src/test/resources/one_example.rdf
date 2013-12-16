@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:dct="http://purl.org/dc/terms/"
+         xmlns:edm="http://www.europeana.eu/schemas/edm/"
+         xmlns:ore="http://www.openarchives.org/ore/terms/"
+         xmlns:foaf="http://xmlns.com/foaf/0.1/"
+         xmlns:xhtml="http://www.w3.org/1999/xhtml/vocab#"
+         xmlns:cc="http://creativecommons.org/ns#"
+        >
+	<edm:ProvidedCHO rdf:about="http://data.europeana.eu/item/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7">
+		<foaf:isPrimaryTopicOf rdf:resource="http://www.europeana.eu/resolve/record/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7"/>
+		<foaf:isPrimaryTopicOf rdf:resource="http://data.europeana.eu/rm/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7"/>
+	</edm:ProvidedCHO>
+	<ore:Aggregation rdf:about="http://data.europeana.eu/aggregation/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7">
+		<edm:aggregatedCHO rdf:resource="http://data.europeana.eu/item/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7"/>
+		<edm:dataProvider>Museo Galileo - Istituto e Museo di Storia della Scienza</edm:dataProvider>
+		<edm:isShownAt rdf:resource="http://catalogue.museogalileo.it/object/Eudiometer.html"/>
+		<edm:object rdf:resource="http://catalogue.museogalileo.it/images/cat/oggetti_300/5247_1652_0834-026_300.jpg"/>
+		<edm:provider>Museo Galileo - Istituto e Museo di Storia della Scienza</edm:provider>
+		<dc:rights>© Museo Galileo - Institute and Museum of the History of Science</dc:rights>
+		<dc:rights>© Museo Galileo - Istituto e Museo di Storia della Scienza</dc:rights>
+		<edm:rights rdf:resource="http://www.europeana.eu/rights/rr-f/"/>
+	</ore:Aggregation>
+	<ore:Proxy rdf:about="http://data.europeana.eu/proxy/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7">
+		<ore:proxyFor rdf:resource="http://data.europeana.eu/item/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7"/>
+		<ore:proxyIn rdf:resource="http://data.europeana.eu/aggregation/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7"/>
+		<edm:type>TEXT</edm:type>
+		<dc:description>Round-bottomed glass eudiometer built in the late eighteenth century on the model designed by Alessandro Volta. The top end carries a small hollow brass cylinder with slits and three radiating pointed rods. A glass cylinder is attached to the brass cylinder. A swiveling brass ring is fastened to to ...</dc:description>
+		<dc:description>Eudiometro in vetro a base rotonda costruito verso la fine del diciottesimo secolo sul modello di quello ideato da Alessandro Volta. All&amp;apos;estremità superiore è posto un piccolo cilindro cavo di ottone, dotato di fessure e tre punte a raggiera, al quale è fissato un cilindro di vetro. Superiormente ...</dc:description>
+		<dc:title>Eudiometer</dc:title>
+		<dc:title>Eudiometro</dc:title>
+		<dct:spatial>London</dct:spatial>
+		<dct:spatial>Londra</dct:spatial>
+		<dct:extent>height 530 mm, diameter 120 mm</dct:extent>
+		<dct:extent>altezza 530 mm, diametro 120 mm</dct:extent>
+		<dc:creator>George Adams junior</dc:creator>
+		<dct:temporal>late 18th cent.</dct:temporal>
+		<dct:temporal>fine sec. XVIII</dct:temporal>
+		<dct:medium>brass, glass</dct:medium>
+		<dct:medium>ottone, vetro</dct:medium>
+		<dc:identifier>urn:imss:instrument:016705</dc:identifier>
+		<dct:isPartOf>Lorraine collection</dct:isPartOf>
+		<dct:isPartOf>Collezioni lorenesi</dct:isPartOf>
+		<dct:created>late 18th cent.</dct:created>
+		<dct:created>fine sec. XVIII</dct:created>
+		<dc:language>eng</dc:language>
+		<dc:language>ita</dc:language>
+		<dc:publisher>Museo Galileo - Institute and Museum of the History of Science</dc:publisher>
+		<dc:publisher>Museo Galileo - Istituto e Museo di Storia della Scienza</dc:publisher>
+		<dc:type>Eudiometer</dc:type>
+		<dc:type>Eudiometro</dc:type>
+		<dct:references>http://catalogo.museogalileo.it/biography/AlessandroVolta.html</dct:references>
+		<dct:references>http://catalogo.museogalileo.it/biography/GeorgeAdamsJunior.html</dct:references>
+		<dct:references>http://catalogo.museogalileo.it/biography/MarsilioLandriani.html</dct:references>
+		<dct:references>http://catalogue.museogalileo.it/indepth/Eudiometer.html</dct:references>
+		<dct:references>http://catalogue.museogalileo.it/multimedia/Eudiometry.html</dct:references>
+		<dct:references>http://catalogue.museogalileo.it/multimedia/FromAlchemyToChemistry.html</dct:references>
+		<dct:references>http://catalogue.museogalileo.it/multimedia/ModernChemistry.html</dct:references>
+		<dct:references>http://catalogue.museogalileo.it/gallery/EudiometerInv930a.html</dct:references>
+	</ore:Proxy>
+	<edm:EuropeanaAggregation rdf:about="http://data.europeana.eu/aggregation/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7">
+		<edm:aggregatedCHO rdf:resource="http://data.europeana.eu/item/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7"/>
+		<ore:isDescribedBy rdf:resource="http://data.europeana.eu/rm/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7"/>
+		<ore:aggregates rdf:resource="http://data.europeana.eu/aggregation/provider/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7"/>
+		<dc:creator>Europeana</dc:creator>
+		<edm:landingPage rdf:resource="http://www.europeana.eu/portal/record/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7.html"/>
+		<edm:preview rdf:resource="http://europeanastatic.eu/api/image?uri=http%3A%2F%2Fcatalogue.museogalileo.it%2Fimages%2Fcat%2Foggetti_300%2F5247_1652_0834-026_300.jpg&amp;size=FULL_DOC&amp;type=TEXT"/>
+		<edm:collectionName>02301_Ag_IT_MG_catalogue</edm:collectionName>
+		<edm:country>italy</edm:country>
+		<edm:language>it</edm:language>
+	</edm:EuropeanaAggregation>
+	<ore:Proxy rdf:about="http://data.europeana.eu/proxy/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7">
+		<ore:proxyFor rdf:resource="http://data.europeana.eu/item/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7"/>
+		<ore:proxyIn rdf:resource="http://data.europeana.eu/aggregation/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7"/>
+	</ore:Proxy>
+	<ore:ResourceMap rdf:about="http://data.europeana.eu/rm/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7">
+		<foaf:primaryTopic rdf:resource="http://data.europeana.eu/item/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7"/>
+		<ore:describes rdf:resource="http://data.europeana.eu/aggregation/europeana/02301/53C3C4A9D03F3A7AAF113A0E5930A3359AAB01B7"/>
+		<xhtml:license rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/"/>
+		<cc:useGuidelines rdf:resource="http://www.europeana.eu/rights/metadata-usage-guidelines/"/>
+		<dc:publisher>Europeana</dc:publisher>
+		<dc:contributor>Museo Galileo - Istituto e Museo di Storia della Scienza</dc:contributor>
+		<dc:contributor>Museo Galileo - Istituto e Museo di Storia della Scienza</dc:contributor>
+	</ore:ResourceMap>
+</rdf:RDF>
