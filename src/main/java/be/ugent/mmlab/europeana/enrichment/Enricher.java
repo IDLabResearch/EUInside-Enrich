@@ -1,15 +1,15 @@
 package be.ugent.mmlab.europeana.enrichment;
 
+import be.ugent.mmlab.europeana.enrichment.linking.CreatorResourceLinker;
+import be.ugent.mmlab.europeana.enrichment.linking.ResourceLinker;
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.NodeFactory;
-import com.hp.hpl.jena.query.*;
+import com.hp.hpl.jena.query.Dataset;
+import com.hp.hpl.jena.query.ReadWrite;
+import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.sparql.core.DatasetGraph;
 import com.hp.hpl.jena.sparql.core.Quad;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.*;
 
 /**
@@ -25,6 +25,13 @@ public class Enricher {
     private final Node foafNameNode = NodeFactory.createURI("http://xmlns.com/foaf/0.1/name");
     private final Node sameAsNode = NodeFactory.createURI("http://www.w3.org/2002/07/owl#sameAs");
 
+    private final Set<ResourceLinker> resourceLinkers;
+
+    public Enricher() {
+        resourceLinkers = new HashSet<>();
+        resourceLinkers.add(new CreatorResourceLinker("localhost", "/agents/"));
+    }
+
     // on triple level
     public void enrich(final Dataset dataset) {
         try {
@@ -37,42 +44,26 @@ public class Enricher {
 
             while (qIter.hasNext()) {
                 Quad quad = qIter.next();
-                Node predicate = quad.getPredicate();
-                if (predicate.isURI() && predicate.getLocalName().equals("creator")) {
-                    Node object = quad.getObject();
-
-                    // if it is a literal, convert to a (local) uri
-                    if (object.isLiteral()) {
-                        try {
-                            addCreator(quad, quadsToAdd, quadsToDelete);
-                        } catch (MalformedURLException | URISyntaxException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                for (ResourceLinker resourceLinker : resourceLinkers) {
+                    resourceLinker.link(quad);
                 }
             }
             dataset.end();
 
             dataset.begin(ReadWrite.WRITE);
-            graph = dataset.asDatasetGraph();
-            for (Quad quad : quadsToAdd) {
-                graph.add(quad);
+            Model model = dataset.getDefaultModel();
+            for (ResourceLinker resourceLinker : resourceLinkers) {
+                resourceLinker.mergeResult(model);
             }
-            for (Quad quad : quadsToDelete) {
-                graph.delete(quad);
-            }
+            model.write(System.out, "TURTLE");
             dataset.commit();
-            dataset.end();
-
-            dataset.begin(ReadWrite.READ);
-            dataset.getDefaultModel().write(System.out, "TURTLE");
             dataset.end();
         } finally {
             dataset.close();
         }
     }
 
-    private void addCreator(final Quad originalQuad, final Set<Quad> quadsToAdd, final Set<Quad> quadsToDelete) throws URISyntaxException, MalformedURLException {
+ /*   private void addCreator(final Quad originalQuad, final Set<Quad> quadsToAdd, final Set<Quad> quadsToDelete) throws URISyntaxException, MalformedURLException {
         String name = originalQuad.getObject().getLiteral().toString();
         Node creatorNode;
         if (!nameToResource.containsKey(name)) {
@@ -190,5 +181,5 @@ public class Enricher {
             e.printStackTrace();
         }
         return str.toString();
-    }
+    } */
 }

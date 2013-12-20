@@ -1,17 +1,15 @@
 package be.ugent.mmlab.europeana.kb.TDB;
 
-import com.hp.hpl.jena.datatypes.RDFDatatype;
-import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.query.*;
-import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.sparql.core.Quad;
 import com.hp.hpl.jena.tdb.TDBFactory;
 import org.apache.commons.compress.compressors.CompressorException;
-import org.apache.commons.compress.compressors.CompressorInputStream;
 import org.apache.commons.compress.compressors.CompressorStreamFactory;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -48,7 +46,7 @@ public class TDBStore {
      *                  "TURTLE" (or "TTL") and "N3"
      * @exception IOException   Reading from the given file went wrong. No data is added.
      */
-    public void addFromFile(final String fileName, final String lang) throws IOException, CompressorException {
+    public void addFromFile(final String fileName, final String lang) throws IOException {
         InputStream cin = null;
         try {
             try {
@@ -67,19 +65,6 @@ public class TDBStore {
         }
     }
 
-    public void queryDBPedia(final String sparqlQuery) {
-        final QueryExecution qExec = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", sparqlQuery);
-        try {
-            ResultSet resultSet = qExec.execSelect();
-            while (resultSet.hasNext()) {
-                QuerySolution solution = resultSet.next();
-
-                // do something
-            }
-        } finally {
-            qExec.close();
-        }
-    }
 
     public void sparqSelectlQuery(final String sparqlQuery, final ResultProcessor resultProcessor) {
         final QueryExecution qExec = QueryExecutionFactory.create(sparqlQuery, dataset);
