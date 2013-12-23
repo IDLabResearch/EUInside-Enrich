@@ -35,9 +35,6 @@ public class Enricher {
     // on triple level
     public void enrich(final Dataset dataset) {
         try {
-            Set<Quad> quadsToAdd = new HashSet<>();
-            Set<Quad> quadsToDelete = new HashSet<>();
-
             dataset.begin(ReadWrite.READ);
             DatasetGraph graph = dataset.asDatasetGraph();
             Iterator<Quad> qIter = graph.find();
