@@ -1,6 +1,6 @@
 package be.ugent.mmlab.europeana.enrichment.linking;
 
-import be.ugent.mmlab.europeana.enrichment.StringCombiner;
+import be.ugent.mmlab.europeana.enrichment.misc.StringCombiner;
 import be.ugent.mmlab.europeana.enrichment.sparql.QueryEndpoint;
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.rdf.model.Property;

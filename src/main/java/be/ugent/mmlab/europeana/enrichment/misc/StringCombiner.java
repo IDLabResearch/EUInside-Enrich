@@ -1,4 +1,4 @@
-package be.ugent.mmlab.europeana.enrichment;
+package be.ugent.mmlab.europeana.enrichment.misc;
 
 import java.util.ArrayList;
 import java.util.Collections;

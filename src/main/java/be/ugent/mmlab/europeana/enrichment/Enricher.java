@@ -2,8 +2,6 @@ package be.ugent.mmlab.europeana.enrichment;
 
 import be.ugent.mmlab.europeana.enrichment.linking.CreatorResourceLinker;
 import be.ugent.mmlab.europeana.enrichment.linking.ResourceLinker;
-import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.query.Dataset;
 import com.hp.hpl.jena.query.ReadWrite;
 import com.hp.hpl.jena.rdf.model.Model;
@@ -20,10 +18,10 @@ public class Enricher {
     //private Set<String> processed = new HashSet<>();    // list of already enriched objects
     private Map<String, String> nameToResource = new HashMap<>();   // mapping (creator ) name to agent resource URI
 
-    private final Node typeNode = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+    /*private final Node typeNode = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
     private final Node agentNode = NodeFactory.createURI("http://www.europeana.eu/schemas/edm/Agent");
     private final Node foafNameNode = NodeFactory.createURI("http://xmlns.com/foaf/0.1/name");
-    private final Node sameAsNode = NodeFactory.createURI("http://www.w3.org/2002/07/owl#sameAs");
+    private final Node sameAsNode = NodeFactory.createURI("http://www.w3.org/2002/07/owl#sameAs");*/
 
     private final Set<ResourceLinker> resourceLinkers;
 
