@@ -20,7 +20,7 @@ public class Extender {
     public void extend(final String type, final String uri) {
         String n3Uri = toDPPediaN3(uri);
         try {
-            String body = resourceFetcher.get(uri);
+            String body = resourceFetcher.get(n3Uri);
 
             if (!body.isEmpty()) {
                 // read contents into model
