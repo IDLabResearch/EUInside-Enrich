@@ -1,14 +1,19 @@
-package be.ugent.mmlab.europeana.enrichment;
+package be.ugent.mmlab.europeana.enrichment.auto;
 
+import be.ugent.mmlab.europeana.enrichment.enriching.Extender;
 import be.ugent.mmlab.europeana.enrichment.linking.CreatorResourceLinker;
 import be.ugent.mmlab.europeana.enrichment.linking.ResourceLinker;
+import be.ugent.mmlab.europeana.enrichment.misc.Names;
+import be.ugent.mmlab.europeana.enrichment.selecting.UserInterface;
 import com.hp.hpl.jena.query.Dataset;
 import com.hp.hpl.jena.query.ReadWrite;
-import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.*;
 import com.hp.hpl.jena.sparql.core.DatasetGraph;
 import com.hp.hpl.jena.sparql.core.Quad;
 
 import java.util.*;
+
+import static be.ugent.mmlab.europeana.enrichment.misc.Names.TYPE;
 
 /**
  * Created by ghaesen on 12/9/13.
@@ -30,8 +35,29 @@ public class Enricher {
         resourceLinkers.add(new CreatorResourceLinker("localhost", "/agents/"));
     }
 
-    // on triple level
-    public void enrich(final Dataset dataset) {
+    /**
+     * Phase one takes an initial data set, and introduces resources for certain literals in it.
+     * The resource then gets 'linked' to a number of possible entries from, e.g., dbPedia.
+     * After this phase, a selection has to be made.
+     *
+     *  E.g.: <dc:creator>George Adams junior</dc:creator>
+     * becomes <dc:creator>http://localhost/agents/George%20Adams%20junior</dc:creator>.
+     *
+     * This resource becomes then (in TURTLE):
+     * <http://localhost/agents/George%20Adams%20junior>
+     * a              <AGENT> ;
+     * <http://TODO>  true ;
+     * <http://www.w3.org/2002/07/owl#sameAs>
+     *   <http://dbpedia.org/resource/George_Adams_(musician)> ,
+     *   <http://dbpedia.org/resource/George_Adams_(football_player_and_coach)>,
+     *   <http://dbpedia.org/resource/George_Adams_(optician)>
+     *   ...
+     *
+     * The "<http://TODO>  true ;" indicates that selection still needs to be made (phase two)
+     *
+     * @param dataset   The data set to enrich
+     */
+    public void phaseOne(final Dataset dataset) {
         try {
             dataset.begin(ReadWrite.READ);
             DatasetGraph graph = dataset.asDatasetGraph();
@@ -56,6 +82,65 @@ public class Enricher {
         } finally {
             dataset.close();
         }
+    }
+
+    public void phaseTwo(final Dataset dataset, final UserInterface userInterface) {
+        // select triples that need selection
+        Model model = dataset.getDefaultModel();
+        Extender extender = new Extender();
+        //Model modelToDelete =
+        try {
+            model.begin();
+
+            Property todoProperty = model.createProperty(Names.TODO.getUri());
+            Property sameAsProperty = model.createProperty(Names.SAME_AS.getUri());
+            Property typeProperty = model.createProperty(TYPE.getUri());
+
+            ResIterator subjectsWithSelection = model.listSubjectsWithProperty(todoProperty);
+            while (subjectsWithSelection.hasNext()) {
+                // TODO get ... ... <subject>, to get and display original context (subject, predicate), e.g. to know that Jos Bosmans is a creator of a proxy
+                Resource subject = subjectsWithSelection.nextResource();
+
+                // now get all sameAs objects
+                StmtIterator possibleCandidateStatements = ((ModelCon) model).listStatements(subject, sameAsProperty, null); // last parameter = null gives function overloading error without casting. Design bug in Jena?
+                Map<String, Statement> statementMap = objectToStatement(possibleCandidateStatements);
+                // send objects to select to user interface
+                String selectedUri = userInterface.makeSelection(subject.getURI(), statementMap.keySet());
+                if (selectedUri == null) {
+                    break;
+                }
+
+                // remove all statements except the one to preserve
+                statementMap.remove(selectedUri);
+                for (Statement statement : statementMap.values()) {
+                    model.remove(statement.getSubject(), statement.getPredicate(), statement.getObject());
+                }
+                model.remove(subject, todoProperty, model.createTypedLiteral(true));  // null as last parameter also crashes?? again a design bug in Jena??
+                model.commit();
+
+                // add real enrichment
+                // first get type; get "<subject> a <object>" triple
+                StmtIterator typeStmt = ((ModelCon) model).listStatements(subject, typeProperty, null);
+                if (typeStmt.hasNext()) {
+                    Statement statement = typeStmt.nextStatement();
+                    String type = statement.getObject().toString();
+                    extender.extend(type, selectedUri);
+                }
+            }
+            model.write(System.out, "TURTLE");
+        } finally {
+            model.close();
+        }
+
+    }
+
+    private Map<String, Statement> objectToStatement(final StmtIterator stmtIterator) {
+        Map<String, Statement> results = new HashMap<>();
+        while (stmtIterator.hasNext()) {
+            Statement statement = stmtIterator.nextStatement();
+            results.put(statement.getObject().asResource().getURI(), statement);
+        }
+        return results;
     }
 
  /*   private void addCreator(final Quad originalQuad, final Set<Quad> quadsToAdd, final Set<Quad> quadsToDelete) throws URISyntaxException, MalformedURLException {

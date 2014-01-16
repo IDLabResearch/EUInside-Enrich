@@ -1,4 +1,4 @@
-package be.ugent.mmlab.europeana.enrichment;
+package be.ugent.mmlab.europeana.enrichment.misc;
 
 /**
  * Created by ghaesen on 12/17/13.

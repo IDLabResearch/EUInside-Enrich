@@ -1,11 +1,9 @@
 package be.ugent.mmlab.europeana.run;
 
-import be.ugent.mmlab.europeana.enrichment.Enricher;
+import be.ugent.mmlab.europeana.enrichment.auto.Enricher;
 import be.ugent.mmlab.europeana.kb.TDB.TDBStore;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,11 +11,10 @@ import java.io.IOException;
 /**
  * Created by ghaesen on 12/20/13.
  */
-public class AutoEnrich {
+public class PhaseOne extends AbstractRun {
 
-    Logger logger = LogManager.getLogger(this.getClass().getName());
 
-    public void enrich(final String inputFile, final String storePath, final boolean overwrite) {
+    public void link(final String inputFile, final String storePath, final boolean overwrite) {
         logger.debug("input file: [{}]; store path: [{}], overwrite: [{}].", inputFile, storePath, overwrite);
 
         File storeDir = new File(storePath);
@@ -45,26 +42,10 @@ public class AutoEnrich {
         }
 
         Enricher enricher = new Enricher();
-        enricher.enrich(store.getDataset());
+        enricher.phaseOne(store.getDataset());
     }
 
-    private String determineInput(String inputFile) {
-        String type = "N-TRIPLE";
-        if (inputFile.contains(".rdf")) type = "RDF/XML";
-        else if (inputFile.contains(".n3")) type = "N3";
-        else if (inputFile.contains(".ttl")) type = "TURTLE";
-        return type;
-    }
-
-    public static void printHelp(final Options options) {
-        HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp("AutoEnrich", "Enriches Europeana metadata. Reads metadata from a given RDF file in a triple store. Then it automatically queries DBPedia, and links to this data. The data is then stored in the triple store, but it still needs to be disambiguated.", options, "");
-    }
-
-    public static void main(String[] args) {
-
-        String defaultStorePath = System.getProperty("java.io.tmpdir") + File.separator + "___TDBStore";
-
+    public void run(String[] args) {
         Options options = new Options();
         options.addOption("h", "help", false, "Show this help.");
         options.addOption("o", "overwrite", false, "Overwrite the directory of the file based triple store, if it exists.");
@@ -80,28 +61,37 @@ public class AutoEnrich {
 
         Option storeOption = OptionBuilder.withArgName("store path")
                 .withLongOpt("store")
-                .withDescription("The directory of the file based triple store. If not given: " + defaultStorePath)
+                .withDescription("The directory of the file based triple store. If not given: " + getDefaultStorePath())
                 .hasArg()
                 .create('s');
         options.addOption(storeOption);
 
+        boolean printHelp = false;
         CommandLineParser parser = new BasicParser();
         try {
             CommandLine commandLine = parser.parse(options, args);
             if (commandLine.hasOption('h')) {
-                printHelp(options);
+                printHelp = true;
                 return;
             }
             String inputPath = commandLine.getOptionValue('i');
-            String storePath = commandLine.hasOption('s') ? commandLine.getOptionValue('s') : defaultStorePath;
+            String storePath = commandLine.hasOption('s') ? commandLine.getOptionValue('s') : getDefaultStorePath();
             boolean overwrite = commandLine.hasOption('o');
 
-            AutoEnrich autoEnrich = new AutoEnrich();
-            autoEnrich.enrich(inputPath, storePath, overwrite);
+            link(inputPath, storePath, overwrite);
 
         } catch (ParseException e) {
             System.out.println(e.getMessage());
-            printHelp(options);
+            printHelp = true;
+        } finally {
+            if (printHelp) {
+                printHelp(options, "Enriches Europeana metadata. Reads metadata from a given RDF file in a triple store. Then it automatically queries DBPedia, and links to this data. The data is then stored in the triple store, but it still needs to be disambiguated.");
+            }
         }
+    }
+
+    public static void main(String[] args) {
+        PhaseOne phaseOne = new PhaseOne();
+        phaseOne.run(args);
     }
 }

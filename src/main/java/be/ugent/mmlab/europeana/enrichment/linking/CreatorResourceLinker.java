@@ -12,7 +12,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Set;
 
-import static be.ugent.mmlab.europeana.enrichment.Names.*;
+import static be.ugent.mmlab.europeana.enrichment.misc.Names.*;
 /**
  * Created by ghaesen on 12/17/13.
  */

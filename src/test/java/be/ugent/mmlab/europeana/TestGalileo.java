@@ -1,6 +1,6 @@
 package be.ugent.mmlab.europeana;
 
-import be.ugent.mmlab.europeana.run.AutoEnrich;
+import be.ugent.mmlab.europeana.run.PhaseOne;
 import org.junit.Test;
 
 import java.io.File;
@@ -23,12 +23,12 @@ public class TestGalileo {
 
 
     @Test
-    public void testAutoEnricher() {
+    public void testPhaseOne() {
 
-        AutoEnrich autoEnrich = new AutoEnrich();
+        PhaseOne phaseOne = new PhaseOne();
         URL resourceFileUrl = getClass().getClassLoader().getResource("one_example.rdf");
         assertNotNull(resourceFileUrl);
         String inputFile = resourceFileUrl.getFile();
-        autoEnrich.enrich(inputFile, tempTDBDir.getPath(), true);
+        phaseOne.link(inputFile, tempTDBDir.getPath(), true);
     }
 }
