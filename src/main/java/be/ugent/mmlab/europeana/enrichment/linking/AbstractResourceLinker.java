@@ -1,5 +1,6 @@
 package be.ugent.mmlab.europeana.enrichment.linking;
 
+import be.ugent.mmlab.europeana.enrichment.misc.CommonModelOperations;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 
@@ -14,6 +15,9 @@ public abstract class AbstractResourceLinker implements ResourceLinker {
     protected final Model addModel;
     protected final Model substractModel;
 
+    protected final CommonModelOperations addModelOps;
+    protected final CommonModelOperations subModelOps;
+
     // part of uri that represents resource
     private final String host;
     private final String path;
@@ -23,7 +27,8 @@ public abstract class AbstractResourceLinker implements ResourceLinker {
         this.path = path;
         addModel = ModelFactory.createDefaultModel();
         substractModel = ModelFactory.createDefaultModel();
-
+        addModelOps = new CommonModelOperations(addModel);
+        subModelOps = new CommonModelOperations(substractModel);
     }
 
     @Override
