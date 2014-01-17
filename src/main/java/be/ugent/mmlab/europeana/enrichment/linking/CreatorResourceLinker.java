@@ -54,11 +54,16 @@ public class CreatorResourceLinker extends AbstractResourceLinker {
 
             // query dbPedia
             List<String> nameCombinations = StringCombiner.combinations(name);
-            for (String nameCombination : nameCombinations) {
+
+            for (int i = 0; i < nameCombinations.size(); i++) {
+                String nameCombination = nameCombinations.get(i);
                 Set<String> dbPediaUris = QueryEndpoint.queryDBPediaForLabel(nameCombination);
                 for (String dbPediaUri : dbPediaUris) {
                     // add "<creator name> sameAs <dbPediaUri>"
                     addModelOps.addSameAs(creatorNode, dbPediaUri);
+                }
+                if (i == 0 && dbPediaUris.size() > 0) {     // we found literal match: stop iterating.
+                    break;
                 }
             }
 
