@@ -1,6 +1,6 @@
 package be.ugent.mmlab.europeana.enrichment.linking;
 
-import be.ugent.mmlab.europeana.enrichment.misc.CommonModelOperations;
+import be.ugent.mmlab.europeana.enrichment.model.CommonModelOperations;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 

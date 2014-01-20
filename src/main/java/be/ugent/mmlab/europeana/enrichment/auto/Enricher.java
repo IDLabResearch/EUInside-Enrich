@@ -3,7 +3,7 @@ package be.ugent.mmlab.europeana.enrichment.auto;
 import be.ugent.mmlab.europeana.enrichment.enriching.Extender;
 import be.ugent.mmlab.europeana.enrichment.linking.CreatorResourceLinker;
 import be.ugent.mmlab.europeana.enrichment.linking.ResourceLinker;
-import be.ugent.mmlab.europeana.enrichment.misc.CommonModelOperations;
+import be.ugent.mmlab.europeana.enrichment.model.CommonModelOperations;
 import be.ugent.mmlab.europeana.enrichment.selecting.UserInterface;
 import com.hp.hpl.jena.query.Dataset;
 import com.hp.hpl.jena.query.ReadWrite;
@@ -114,7 +114,10 @@ public class Enricher {
                 // first get type; get "<subject> a <object>" triple
                 String type = modelOps.getType(subject);
                 if (type != null) {
-                    extender.extend(type, selectedUri);
+                    Model extensionModel = extender.extend(type, subject, selectedUri);
+                    if (extensionModel != null) {
+                        model.add(extensionModel);
+                    }
                 }
             }
             model.write(System.out, "TURTLE");
