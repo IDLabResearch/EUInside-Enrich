@@ -84,7 +84,7 @@ public class CommonModelOperations {
         // fist try birth date (person)
         XSDDateTime beginDate = getDate(rdfNodeFactory.getBirthDateProperty());
         if (beginDate == null) {
-            // TODO: try begin date of corporation
+            beginDate = getDate(rdfNodeFactory.getDateOfBirthProperty());
         }
         return beginDate;
     }
@@ -94,7 +94,7 @@ public class CommonModelOperations {
         // fist try birth date (person)
         XSDDateTime endDate = getDate(rdfNodeFactory.getDeathDateProperty());
         if (endDate == null) {
-            // TODO: try begin date of corporation
+            endDate = getDate(rdfNodeFactory.getDateOfDeathProperty());
         }
         return endDate;
     }

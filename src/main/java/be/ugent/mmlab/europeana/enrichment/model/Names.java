@@ -12,7 +12,9 @@ public enum Names {
     TYPE("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
 
     DBP_BIRTH_DATE("http://dbpedia.org/ontology/birthDate"),
+    DBP_DATE_OF_BIRTH("http://dbpedia.org/property/dateOfBirth"),
     DBP_DEATH_DATE("http://dbpedia.org/ontology/deathDate"),
+    DBP_DATE_OF_DEATH("http://dbpedia.org/property/dateOfDeath"),
 
     EDM_BEGIN("http://www.europeana.eu/schemas/edm/begin"),  // begin (corporate) or birth (person)
     EDM_END("http://www.europeana.eu/schemas/edm/end"),      // end (corporate) or death (person)

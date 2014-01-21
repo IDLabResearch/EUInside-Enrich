@@ -14,7 +14,9 @@ public class RdfNodeFactory {
     private final Property typeProperty;
     private final Property creatorProperty;
     private final Property birthDateProperty;
+    private final Property dateOfBirthProperty;
     private final Property deathDateProperty;
+    private final Property dateOfDeathProperty;
     private final Property beginProperty;
     private final Property endProperty;
 
@@ -32,8 +34,11 @@ public class RdfNodeFactory {
         trueLiteral = dummyModel.createTypedLiteral(true);
         creatorProperty = dummyModel.createProperty(CREATOR.getUri());
         agentResource = dummyModel.createResource(AGENT.toString());
+
         birthDateProperty = dummyModel.createProperty(DBP_BIRTH_DATE.getUri());
+        dateOfBirthProperty = dummyModel.createProperty(DBP_DATE_OF_BIRTH.getUri());
         deathDateProperty = dummyModel.createProperty(DBP_DEATH_DATE.getUri());
+        dateOfDeathProperty = dummyModel.createProperty(DBP_DATE_OF_DEATH.getUri());
         beginProperty = dummyModel.createProperty(EDM_BEGIN.getUri());
         endProperty = dummyModel.createProperty(EDM_END.getUri());
     }
@@ -83,5 +88,13 @@ public class RdfNodeFactory {
 
     public Property getEndProperty() {
         return endProperty;
+    }
+
+    public Property getDateOfBirthProperty() {
+        return dateOfBirthProperty;
+    }
+
+    public Property getDateOfDeathProperty() {
+        return dateOfDeathProperty;
     }
 }
