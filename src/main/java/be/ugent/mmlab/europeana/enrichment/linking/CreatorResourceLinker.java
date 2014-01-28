@@ -8,6 +8,7 @@ import com.hp.hpl.jena.sparql.core.Quad;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -53,18 +54,13 @@ public class CreatorResourceLinker extends AbstractResourceLinker {
             // TODO: add foaf name? Or first check dbPedia for preferred label?
 
             // query dbPedia
-            List<String> nameCombinations = StringCombiner.combinations(name);
+            String nameCombinations = StringCombiner.combinations(name);
 
-            for (int i = 0; i < nameCombinations.size(); i++) {
-                String nameCombination = nameCombinations.get(i);
-                Set<String> dbPediaUris = QueryEndpoint.queryDBPediaForLabel(nameCombination);
-                for (String dbPediaUri : dbPediaUris) {
-                    // add "<creator name> sameAs <dbPediaUri>"
-                    addModelOps.addSameAs(creatorNode, dbPediaUri);
-                }
-                if (i == 0 && dbPediaUris.size() > 0) {     // we found literal match: stop iterating.
-                    break;
-                }
+            Set<String> dbPediaUris = QueryEndpoint.queryDBPediaForLabel(nameCombinations);
+            for (String dbPediaUri : dbPediaUris) {
+                // add "<creator name> sameAs <dbPediaUri>"
+                addModelOps.addSameAs(creatorNode, dbPediaUri);
+                // TODO check for literal!!
             }
 
             // replace original literal with new resource
@@ -72,6 +68,13 @@ public class CreatorResourceLinker extends AbstractResourceLinker {
             addModelOps.addCreator(originalSubjectUri, creatorNode);
             subModelOps.addCreatorToRemove(originalSubjectUri, name);
         }
+    }
+
+    private final List<String> normalizeName(final String name) {
+        List<String> result = new ArrayList<>();
+        // remove everything between (square) brackets
+        name.replaceAll("(.*)(\\(.*\\))(.*)", "");
+        return result;
     }
 
 }

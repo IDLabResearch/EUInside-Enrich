@@ -16,7 +16,8 @@ public class QueryEndpoint {
     public static Set<QuerySolution> queryDBPedia(final String sparqlQuery) {
         Set<QuerySolution> solutions = new HashSet<>();
         System.out.println("sparqlQuery = " + sparqlQuery);
-        final QueryExecution qExec = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", sparqlQuery);
+        //final QueryExecution qExec = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", sparqlQuery);
+        final QueryExecution qExec = QueryExecutionFactory.sparqlService("http://restdesc.org:8891/sparql", sparqlQuery);
         try {
 
             ResultSet resultSet = qExec.execSelect();
@@ -32,6 +33,12 @@ public class QueryEndpoint {
     }
 
     public static Set<String> queryDBPediaForLabel(final String label) {
+
+        // escape single quotes?
+        String newLabel = label.replaceAll("-", "_");
+        //newLabel = newLabel.replaceAll("'", "\\\\u0027");
+        newLabel = newLabel.replaceAll("'", " and ");
+
         Set<String> solutions = new HashSet<>();
         String query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" +
                 "PREFIX dcterms: <http://purl.org/dc/terms/> \n" +
@@ -39,8 +46,8 @@ public class QueryEndpoint {
                 "SELECT DISTINCT ?s ?label WHERE { \n" +
                 "            ?s rdfs:label ?label . \n" +
                 "            FILTER (lang(?label) = 'en'). \n" +
-                "            ?label <bif:contains> \"" + label + "\" . \n" +
-                "            ?s dcterms:subject ?sub \n" +
+                "            ?label <bif:contains> '" + newLabel + "' . \n" +
+                //"            ?s dcterms:subject ?sub \n" +
                 "}";
         Set<QuerySolution> querySolutions = queryDBPedia(query);
         for (QuerySolution querySolution : querySolutions) {

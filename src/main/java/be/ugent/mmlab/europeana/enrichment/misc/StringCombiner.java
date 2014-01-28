@@ -1,81 +1,106 @@
 package be.ugent.mmlab.europeana.enrichment.misc;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Helper class to calculate combinations
  */
 public class StringCombiner {
-    /**
-     * Takes a String as input, splits it up according to white spaces (~ in words), and returns the combinations of
-     * these words.
-     * E.g.: "I am Yoda" returns: "I am Yoda", "I Yoda am", "Yoda I am", "Yoda am I", "Am I Yoda", "Am Yoda I", "I am", "I Yoda", ...
-     * @param input The input String
-     * @return  A list of combinations of this String.
-     */
-    public static List<String> combinations(final String input) {
-        List<String> namePermutations = new ArrayList<>();
-        String normalizedName = input.trim().replaceAll("[\\s\\.]+", "_");
-        //namePermutations.add(normalizedName);
 
-        String[] nameParts = normalizedName.split("_");
-        //permutation(new String[0], nameParts, namePermutations);
-
-        // create index string
+    public static String combinations(final String input) {
+        //List<String> result = new ArrayList<>();
+        List<String> normalizedNames = normalizeName(input);
         StringBuilder str = new StringBuilder();
-        for (int i = 0; i < nameParts.length; i++) {
-            str.append(i);
-        }
 
-        List<String> indexStrings = new ArrayList<>();
-        permutation("", str.toString(), indexStrings);
-        Collections.sort(indexStrings, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                if (o1.length() == o2.length()) {
-                    return o1.compareTo(o2);
-                } else {
-                    return o2.length() - o1.length();
+        if (!normalizedNames.isEmpty()) {
+            for (String normalizedName : normalizedNames) {
+                Set<String> results = calcCombination(normalizedName);
+                if (!results.isEmpty()) {
+                    for (String result : results) {
+                        result = result.replaceAll("_'", " and ");
+                        result = result.replaceAll("^'", "");
+                        str.append(result).append(" or ");
+                    }
+                    str.delete(str.length() - 4, str.length());
                 }
+                str.append(" or ");
             }
-        });
-
-        int maxLength = nameParts.length;
-        for (String indexString : indexStrings) {
-            if (indexString.length() < maxLength - 1) {
-                break;
-            }
-            namePermutations.add(mergeParts(indexString, nameParts));
+            str.delete(str.length() - 4, str.length());
         }
 
-        return namePermutations;
+        // some final normalization
+        return str.toString();
     }
 
 
-    private static void permutation(String prefix, String str, final List<String> indexStrings) {
-        int n = str.length();
-        if (n == 0) {
-            if (prefix.length() > 0 && !indexStrings.contains(prefix)) {
-                indexStrings.add(prefix);
-                permutation("", prefix.substring(0, prefix.length() - 1), indexStrings);
+    private static List<String> normalizeName(final String name) {
+        List<String> result = new ArrayList<>();
+
+        // remove everything between (square) brackets
+        String normName = name.replaceAll("[\\[\\(].*?[\\]\\)]", ""); // extra '?' -> lazy matching
+
+        // remove everything starting with small letters
+        normName = normName.replaceAll(" or ", ",");
+        normName = normName.replaceAll("\\s\\p{javaLowerCase}+", " ");
+        normName = normName.replaceAll("^\\p{javaLowerCase}+", "");
+        normName = normName.replaceAll(" - ", " , ");
+
+        //normName = normName.replaceAll("'", " and ");
+
+        //normName = normName.replaceAll("[,&]", " or ");
+        // split
+        String[] parts = normName.split("[,&]");
+        for (String part : parts) {
+            part = part.trim();
+            if (!part.isEmpty()) {
+                result.add(part);
             }
         }
-        else {
-            for (int i = 0; i < n; i++)
-                permutation(prefix + str.charAt(i), str.substring(0, i) + str.substring(i+1, n), indexStrings);
+        return result;
+    }
+
+    private static Set<String> calcCombination (final String name) {
+        String[] parts = name.split("\\s+");
+        final Set<String> result = new HashSet<>();
+        calcCombination(result, parts);
+        return result;
+    }
+
+    private static void calcCombination (final Set<String> result, final String[] parts) {
+        result.add(join(parts));
+        if (parts.length > 2) {
+            int nrParts = parts.length;
+
+            for (int i = 0; i < nrParts; i++) {
+                calcCombination(result, removeAtIndex(parts, i));
+            }
+
         }
     }
 
-    private static String mergeParts(final String indexString, final String[] nameParts) {
+    private static String join(final String[] parts) {
         StringBuilder str = new StringBuilder();
-        for (int i = 0; i < indexString.length(); i++) {
-            int index = Integer.parseInt(indexString.substring(i, i + 1));
-            str.append(nameParts[index]).append('_');
+        for (String part : parts) {
+            str.append(part).append('_');
         }
         str.deleteCharAt(str.length() - 1);
         return str.toString();
+    }
+
+    private static String[] removeAtIndex(final String parts[], int index) {
+        int newSize = parts.length - 1;
+        String[] newParts = new String[newSize];
+        int i;
+        for (i = 0; i < index; i++) {
+            newParts[i] = parts[i];
+        }
+        i++;
+        for (; i < parts.length; i++) {
+            newParts[i - 1] = parts[i];
+        }
+        return newParts;
     }
 }
