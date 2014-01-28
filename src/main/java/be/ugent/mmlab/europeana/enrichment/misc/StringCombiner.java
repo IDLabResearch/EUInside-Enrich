@@ -1,9 +1,6 @@
 package be.ugent.mmlab.europeana.enrichment.misc;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Helper class to calculate combinations
@@ -11,7 +8,6 @@ import java.util.Set;
 public class StringCombiner {
 
     public static String combinations(final String input) {
-        //List<String> result = new ArrayList<>();
         List<String> normalizedNames = normalizeName(input);
         StringBuilder str = new StringBuilder();
 
@@ -20,8 +16,7 @@ public class StringCombiner {
                 Set<String> results = calcCombination(normalizedName);
                 if (!results.isEmpty()) {
                     for (String result : results) {
-                        result = result.replaceAll("_'", " and ");
-                        result = result.replaceAll("^'", "");
+                        result = result.replaceAll("'", "");
                         str.append(result).append(" or ");
                     }
                     str.delete(str.length() - 4, str.length());
@@ -31,26 +26,22 @@ public class StringCombiner {
             str.delete(str.length() - 4, str.length());
         }
 
-        // some final normalization
         return str.toString();
     }
-
 
     private static List<String> normalizeName(final String name) {
         List<String> result = new ArrayList<>();
 
+        String normName = name.substring(name.lastIndexOf('/') + 1).replaceAll("_", " ");
         // remove everything between (square) brackets
-        String normName = name.replaceAll("[\\[\\(].*?[\\]\\)]", ""); // extra '?' -> lazy matching
+        normName = normName.replaceAll("[\\[\\(].*?[\\]\\)]", ""); // extra '?' -> lazy matching
 
         // remove everything starting with small letters
         normName = normName.replaceAll(" or ", ",");
         normName = normName.replaceAll("\\s\\p{javaLowerCase}+", " ");
         normName = normName.replaceAll("^\\p{javaLowerCase}+", "");
-        normName = normName.replaceAll(" - ", " , ");
+        normName = normName.replaceAll("-", ",");
 
-        //normName = normName.replaceAll("'", " and ");
-
-        //normName = normName.replaceAll("[,&]", " or ");
         // split
         String[] parts = normName.split("[,&]");
         for (String part : parts) {
@@ -62,45 +53,40 @@ public class StringCombiner {
         return result;
     }
 
+    public static int score (final String combinations1, final String combinations2) {
+        String norm1 = combinations1.replaceAll("\\s\\p{javaLowerCase}+", "");
+        String norm2 = combinations2.replaceAll("\\s\\p{javaLowerCase}+", "");
+        String[] parts1 = norm1.split(" ");
+        String[] parts2 = norm2.split(" ");
+        Set<String> set1 = new HashSet<>(Arrays.asList(parts1));
+        Set<String> set2 = new HashSet<>(Arrays.asList(parts2));
+
+        set1.retainAll(set2);
+
+        int score = set1.size();
+
+        if (score != set2.size()) {
+            score--;
+        }
+        return score;
+    }
+
     private static Set<String> calcCombination (final String name) {
         String[] parts = name.split("\\s+");
-        final Set<String> result = new HashSet<>();
-        calcCombination(result, parts);
-        return result;
+        return calcCombination(parts);
     }
 
-    private static void calcCombination (final Set<String> result, final String[] parts) {
-        result.add(join(parts));
-        if (parts.length > 2) {
-            int nrParts = parts.length;
-
-            for (int i = 0; i < nrParts; i++) {
-                calcCombination(result, removeAtIndex(parts, i));
+    private static Set<String> calcCombination (final String[] parts) {
+        Set<String> result = new HashSet<>();
+        if (parts.length == 1) {
+            result.add(parts[0]);
+        } else {
+            for (int firstIndex = 0; firstIndex < parts.length - 1; firstIndex++) {
+                for (int secondIndex = firstIndex + 1; secondIndex < parts.length; secondIndex++) {
+                    result.add(parts[firstIndex] + " and " + parts[secondIndex]);
+                }
             }
-
         }
-    }
-
-    private static String join(final String[] parts) {
-        StringBuilder str = new StringBuilder();
-        for (String part : parts) {
-            str.append(part).append('_');
-        }
-        str.deleteCharAt(str.length() - 1);
-        return str.toString();
-    }
-
-    private static String[] removeAtIndex(final String parts[], int index) {
-        int newSize = parts.length - 1;
-        String[] newParts = new String[newSize];
-        int i;
-        for (i = 0; i < index; i++) {
-            newParts[i] = parts[i];
-        }
-        i++;
-        for (; i < parts.length; i++) {
-            newParts[i - 1] = parts[i];
-        }
-        return newParts;
+        return result;
     }
 }

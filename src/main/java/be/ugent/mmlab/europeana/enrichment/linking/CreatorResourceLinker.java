@@ -8,9 +8,7 @@ import com.hp.hpl.jena.sparql.core.Quad;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Copyright 2014 MMLab, UGent
@@ -54,13 +52,27 @@ public class CreatorResourceLinker extends AbstractResourceLinker {
             // TODO: add foaf name? Or first check dbPedia for preferred label?
 
             // query dbPedia
-            String nameCombinations = StringCombiner.combinations(name);
+            final String nameCombinations = StringCombiner.combinations(name);
 
+            // add uri's in a kind of ranked order: first the more relevant ones.
             Set<String> dbPediaUris = QueryEndpoint.queryDBPediaForLabel(nameCombinations);
+            List<String> orderedUris = new ArrayList<>();
             for (String dbPediaUri : dbPediaUris) {
                 // add "<creator name> sameAs <dbPediaUri>"
-                addModelOps.addSameAs(creatorNode, dbPediaUri);
-                // TODO check for literal!!
+                orderedUris.add(dbPediaUri);
+            }
+            Collections.sort(orderedUris, new Comparator<String>() {
+                @Override
+                public int compare(String uri1, String uri2) {
+
+                    return StringCombiner.score(nameCombinations, StringCombiner.combinations(uri2))
+                            - StringCombiner.score(nameCombinations, StringCombiner.combinations(uri1));
+                }
+            });
+
+            for (String orderedUri : orderedUris) {
+                // add "<creator name> sameAs <dbPediaUri>"
+                addModelOps.addSameAs(creatorNode, orderedUri);
             }
 
             // replace original literal with new resource
@@ -68,13 +80,6 @@ public class CreatorResourceLinker extends AbstractResourceLinker {
             addModelOps.addCreator(originalSubjectUri, creatorNode);
             subModelOps.addCreatorToRemove(originalSubjectUri, name);
         }
-    }
-
-    private final List<String> normalizeName(final String name) {
-        List<String> result = new ArrayList<>();
-        // remove everything between (square) brackets
-        name.replaceAll("(.*)(\\(.*\\))(.*)", "");
-        return result;
     }
 
 }
