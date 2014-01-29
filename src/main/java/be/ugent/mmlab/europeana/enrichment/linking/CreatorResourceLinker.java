@@ -8,7 +8,7 @@ import com.hp.hpl.jena.sparql.core.Quad;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.Set;
 
 /**
  * Copyright 2014 MMLab, UGent
@@ -54,25 +54,10 @@ public class CreatorResourceLinker extends AbstractResourceLinker {
             // query dbPedia
             final String nameCombinations = StringCombiner.combinations(name);
 
-            // add uri's in a kind of ranked order: first the more relevant ones.
             Set<String> dbPediaUris = QueryEndpoint.queryDBPediaForLabel(nameCombinations);
-            List<String> orderedUris = new ArrayList<>();
             for (String dbPediaUri : dbPediaUris) {
                 // add "<creator name> sameAs <dbPediaUri>"
-                orderedUris.add(dbPediaUri);
-            }
-            Collections.sort(orderedUris, new Comparator<String>() {
-                @Override
-                public int compare(String uri1, String uri2) {
-
-                    return StringCombiner.score(nameCombinations, StringCombiner.combinations(uri2))
-                            - StringCombiner.score(nameCombinations, StringCombiner.combinations(uri1));
-                }
-            });
-
-            for (String orderedUri : orderedUris) {
-                // add "<creator name> sameAs <dbPediaUri>"
-                addModelOps.addSameAs(creatorNode, orderedUri);
+                addModelOps.addSameAs(creatorNode, dbPediaUri);
             }
 
             // replace original literal with new resource

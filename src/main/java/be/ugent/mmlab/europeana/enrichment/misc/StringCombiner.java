@@ -54,6 +54,9 @@ public class StringCombiner {
     }
 
     public static int score (final String combinations1, final String combinations2) {
+
+        // can be improved by taking order of presence into account
+
         String norm1 = combinations1.replaceAll("\\s\\p{javaLowerCase}+", "");
         String norm2 = combinations2.replaceAll("\\s\\p{javaLowerCase}+", "");
         String[] parts1 = norm1.split(" ");

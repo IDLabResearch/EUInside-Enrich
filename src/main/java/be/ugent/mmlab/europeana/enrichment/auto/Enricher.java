@@ -3,6 +3,7 @@ package be.ugent.mmlab.europeana.enrichment.auto;
 import be.ugent.mmlab.europeana.enrichment.enriching.Extender;
 import be.ugent.mmlab.europeana.enrichment.linking.CreatorResourceLinker;
 import be.ugent.mmlab.europeana.enrichment.linking.ResourceLinker;
+import be.ugent.mmlab.europeana.enrichment.misc.StringCombiner;
 import be.ugent.mmlab.europeana.enrichment.model.CommonModelOperations;
 import be.ugent.mmlab.europeana.enrichment.selecting.UserInterface;
 import com.hp.hpl.jena.query.Dataset;
@@ -14,10 +15,9 @@ import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.sparql.core.DatasetGraph;
 import com.hp.hpl.jena.sparql.core.Quad;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.*;
 
 /**
  * Copyright 2014 MMLab, UGent
@@ -80,7 +80,7 @@ public class Enricher {
         }
     }
 
-    public void phaseTwo(final Dataset dataset, final UserInterface userInterface) {
+    public void phaseTwo(final Dataset dataset, final UserInterface userInterface) throws UnsupportedEncodingException {
         // select triples that need selection
         Model model = dataset.getDefaultModel();
         Extender extender = new Extender();
@@ -96,8 +96,23 @@ public class Enricher {
 
                 // now get all sameAs objects
                 Map<String, Statement> statementMap = modelOps.getSameAsObjToStmt(subject);
+
+                // rank uri's
+                List<String> rankedUris = new ArrayList<>();
+                rankedUris.addAll(statementMap.keySet());
+                final String subjectUri = URLDecoder.decode(subject.getURI(), "UTF-8");
+                final String subjectCombinations = StringCombiner.combinations(subjectUri);
+                Collections.sort(rankedUris, new Comparator<String>() {
+                    @Override
+                    public int compare(String uri1, String uri2) {
+
+                        return StringCombiner.score(subjectCombinations, StringCombiner.combinations(uri2))
+                                - StringCombiner.score(subjectCombinations, StringCombiner.combinations(uri1));
+                    }
+                });
+
                 // send objects to select to user interface
-                String selectedUri = userInterface.makeSelection(subject.getURI(), statementMap.keySet());
+                String selectedUri = userInterface.makeSelection(subjectUri, rankedUris);
                 if (selectedUri == null) {
                     break;
                 }

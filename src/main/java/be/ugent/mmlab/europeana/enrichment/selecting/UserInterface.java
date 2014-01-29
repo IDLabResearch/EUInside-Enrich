@@ -1,6 +1,6 @@
 package be.ugent.mmlab.europeana.enrichment.selecting;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by ghaesen on 1/8/14.
@@ -13,5 +13,5 @@ public interface UserInterface {
      * @param resources The possible options.
      * @return One of the given options. To stop before the process is done, an implementation can return null.
      */
-    public String makeSelection(final String subject, final Set<String> resources);
+    public String makeSelection(final String subject, final List<String> resources);
 }

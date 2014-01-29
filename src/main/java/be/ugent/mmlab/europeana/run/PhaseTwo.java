@@ -5,18 +5,20 @@ import be.ugent.mmlab.europeana.enrichment.selecting.UserInterface;
 import be.ugent.mmlab.europeana.kb.TDB.TDBStore;
 import org.apache.commons.cli.*;
 
+import java.io.UnsupportedEncodingException;
+
 /**
  * Created by ghaesen on 1/8/14.
  */
 public class PhaseTwo extends AbstractRun {
 
-    public void disambiguate(final String storePath, final UserInterface userInterface) {
+    public void disambiguate(final String storePath, final UserInterface userInterface) throws UnsupportedEncodingException {
         TDBStore store = new TDBStore(storePath);
         Enricher enricher = new Enricher();
         enricher.phaseTwo(store.getDataset(), userInterface);
     }
 
-    public void run(String[] args) {
+    public void run(String[] args) throws UnsupportedEncodingException {
         Options options = new Options();
         options.addOption("h", "help", false, "Show this help.");
         Option storeOption = OptionBuilder.withArgName("store path")
@@ -49,7 +51,7 @@ public class PhaseTwo extends AbstractRun {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedEncodingException {
         PhaseTwo phaseTwo = new PhaseTwo();
         phaseTwo.run(args);
     }
