@@ -140,11 +140,11 @@
             <artifactId>spdy-http-server</artifactId>
             <version>${jetty.version}</version>
         </dependency>
-        <!--dependency>
+        <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-plus</artifactId>
             <version>${jetty.version}</version>
-        </dependency-->
+        </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-annotations</artifactId>
@@ -172,12 +172,11 @@
             <!-- scope>test</scope-->
         </dependency>
 
-        <!-- resteasy -->
-
+        <!-- http client -->
         <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-servlet-initializer</artifactId>
-            <version>3.0.6.Final</version>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.3.2</version>
         </dependency>
 
 
