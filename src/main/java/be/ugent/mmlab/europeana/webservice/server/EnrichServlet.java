@@ -1,5 +1,7 @@
 package be.ugent.mmlab.europeana.webservice.server;
 
+import be.ugent.mmlab.europeana.enrichment.auto.RecordHandler;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -14,12 +16,14 @@ import java.io.IOException;
  */
 @MultipartConfig
 public class EnrichServlet extends HttpServlet {
+    private final RecordHandler recordHandler = new RecordHandler();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getPathInfo();
         String contentType = req.getContentType();
 
-        if (path.startsWith("/record")) {
+        if (path.startsWith("/enrich/")) {
             if (contentType.startsWith("application/rdf+xml")) {
                 // get reference
                 String[] pathParts = path.split("/");
@@ -31,16 +35,25 @@ public class EnrichServlet extends HttpServlet {
                         resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                     }
                 } else {
-                    resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Reference missing; use an URI like http://<host:port>/record/<reference>");
+                    resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Reference missing; use an URI like http://<host:port>/enrich/<reference>");
                 }
             } else {
                 resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "Only application/rdf+xml is supported at this moment");
             }
         } else {
-            resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Try an url like http://<host:port>/record/<reference>");
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Try an url like http://<host:port>/enrich/<reference>");
         }
 
         resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (req.getPathInfo().startsWith("/enrich")) {
+            resp.setStatus(HttpServletResponse.SC_OK);
+        } else {
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     private void addRecords(final String reference, final BufferedReader reader) throws IOException {
@@ -52,7 +65,8 @@ public class EnrichServlet extends HttpServlet {
         if (str.length() > 0) {
             str.deleteCharAt(str.length() - 1);
         }
-        String records = str.toString();
+        String record = str.toString();
+        recordHandler.addRecord(reference, record);
 
     }
 

@@ -9,7 +9,7 @@ import static be.ugent.mmlab.europeana.enrichment.model.Names.*;
  * Created by ghaesen on 1/20/14.
  */
 public class RdfNodeFactory {
-    private final Property todoProperty;
+    private final Property commentProperty;
     private final Property sameAsProperty;
     private final Property typeProperty;
     private final Property creatorProperty;
@@ -19,21 +19,22 @@ public class RdfNodeFactory {
     private final Property dateOfDeathProperty;
     private final Property beginProperty;
     private final Property endProperty;
+    private final Property dbpRedirectProperty;
 
 
-    private final Literal trueLiteral;
+    private final Literal todoLiteral;
     private final Resource agentResource;
 
     private static RdfNodeFactory instance;
 
     private RdfNodeFactory() {
         final Model dummyModel = ModelFactory.createDefaultModel();
-        todoProperty = dummyModel.createProperty(TODO.getUri());
+        commentProperty = dummyModel.createProperty(COMMENT.getUri());
         sameAsProperty = dummyModel.createProperty(SAME_AS.getUri());
         typeProperty = dummyModel.createProperty(TYPE.getUri());
-        trueLiteral = dummyModel.createTypedLiteral(true);
+        todoLiteral = dummyModel.createTypedLiteral("__TODO__");
         creatorProperty = dummyModel.createProperty(CREATOR.getUri());
-        agentResource = dummyModel.createResource(AGENT.toString());
+        agentResource = dummyModel.createResource(AGENT.getUri());
 
         birthDateProperty = dummyModel.createProperty(DBP_BIRTH_DATE.getUri());
         dateOfBirthProperty = dummyModel.createProperty(DBP_DATE_OF_BIRTH.getUri());
@@ -41,6 +42,7 @@ public class RdfNodeFactory {
         dateOfDeathProperty = dummyModel.createProperty(DBP_DATE_OF_DEATH.getUri());
         beginProperty = dummyModel.createProperty(EDM_BEGIN.getUri());
         endProperty = dummyModel.createProperty(EDM_END.getUri());
+        dbpRedirectProperty = dummyModel.createProperty(DBP_REDIRECT.getUri());
     }
 
     public static RdfNodeFactory getInstance(){
@@ -50,8 +52,8 @@ public class RdfNodeFactory {
         return instance;
     }
 
-    public Property getTodoProperty() {
-        return todoProperty;
+    public Property getCommentProperty() {
+        return commentProperty;
     }
 
     public Property getSameAsProperty() {
@@ -66,8 +68,8 @@ public class RdfNodeFactory {
         return creatorProperty;
     }
 
-    public Literal getTrueLiteral() {
-        return trueLiteral;
+    public Literal getTodoLiteral() {
+        return todoLiteral;
     }
 
     public Resource getAgentResource() {
@@ -96,5 +98,9 @@ public class RdfNodeFactory {
 
     public Property getDateOfDeathProperty() {
         return dateOfDeathProperty;
+    }
+
+    public Property getDbpRedirectProperty() {
+        return dbpRedirectProperty;
     }
 }

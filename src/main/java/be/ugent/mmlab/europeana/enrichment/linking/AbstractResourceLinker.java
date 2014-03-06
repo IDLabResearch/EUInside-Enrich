@@ -33,10 +33,16 @@ public abstract class AbstractResourceLinker implements ResourceLinker {
 
     @Override
     public void mergeResult(final Model model) {
-        model.begin();
+
+        // actual merge
+        try {model.begin();} catch (UnsupportedOperationException e) {/* not all models support transactions */}
         model.add(addModel);
         model.remove(substractModel);
-        model.commit();
+        try {model.commit();} catch (UnsupportedOperationException e) {/* not all models support transactions */}
+
+        // cleanup
+        addModel.removeAll();
+        substractModel.removeAll();
     }
 
     protected String getURI(final String localName) throws URISyntaxException, MalformedURLException {

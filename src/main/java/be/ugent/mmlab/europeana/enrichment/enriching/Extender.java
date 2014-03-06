@@ -1,9 +1,8 @@
 package be.ugent.mmlab.europeana.enrichment.enriching;
 
 import be.ugent.mmlab.europeana.enrichment.model.CommonModelOperations;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Resource;
+import be.ugent.mmlab.europeana.enrichment.model.RdfNodeFactory;
+import com.hp.hpl.jena.rdf.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,8 +27,16 @@ public class Extender {
             if (!body.isEmpty()) {
                 // read contents into model
                 Model newModel = toModel(body);
+
+                // if page redirects, get that info in stead
+                // e.g.: dbpedia:George_B._Adams @dbpedia-owl:wikiPageRedirects dbpedia:George_Burton_Adams;
+                String redirectURI = checkForRedirect(newModel);
+                if (redirectURI != null && !redirectURI.equals(uri)) {
+                    return extend(type, subject, redirectURI);
+                }
+
                 switch (type) {
-                    case "AGENT":
+                    case "http://www.europeana.eu/schemas/edm/Agent":
                         result = extendAgent(subject, newModel);
                         break;
                 }
@@ -70,5 +77,15 @@ public class Extender {
             newModel.read(in, null, "N3");
         }
         return newModel;
+    }
+
+    private String checkForRedirect(final Model model) {
+        NodeIterator nodeIter = model.listObjectsOfProperty(RdfNodeFactory.getInstance().getDbpRedirectProperty());
+        if (nodeIter.hasNext()) {
+            RDFNode objectNode = nodeIter.next();
+            return objectNode.asResource().getURI();
+        } else {
+            return null;
+        }
     }
 }

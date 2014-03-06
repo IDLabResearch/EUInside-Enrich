@@ -1,6 +1,7 @@
 package be.ugent.mmlab.europeana.webservice.server;
 
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 import java.io.File;
@@ -17,19 +18,11 @@ public class WebServer {
     }
 
     public void start() throws Exception {
-
         // setup: http://news-anand.blogspot.be/2012/05/today-i-am-going-tell-you-how-to-create.html
-
         Server jetty = new Server(port);
 
-       // ServletHandler handler = new ServletHandler();
-        //handler.addServletWithMapping(EnrichServlet.class, "/*");
-        //jetty.setHandler(handler);
-
-
-        //// BEGIN dirty hackery to get multipart posts working in jetty. See https://bugs.eclipse.org/bugs/show_bug.cgi?id=395000
-
-        String[] configurationClasses = {
+       //// BEGIN dirty hackery to get multipart posts working in jetty. See https://bugs.eclipse.org/bugs/show_bug.cgi?id=395000
+       String[] configurationClasses = {
                 "org.eclipse.jetty.webapp.WebInfConfiguration",
                 "org.eclipse.jetty.webapp.WebXmlConfiguration",
                 "org.eclipse.jetty.webapp.MetaInfConfiguration",
@@ -42,26 +35,14 @@ public class WebServer {
         };
         WebAppContext context = new WebAppContext();
         context.setConfigurationClasses(configurationClasses);
-        context.setContextPath("/");
+        context.setContextPath("/enrich/");
         context.setTempDirectory(new File("/tmp/jetty"));
-        context.setResourceBase("/tmp");
-        context.addServlet(EnrichServlet.class, "/*");
-
+        context.setResourceBase("/tmp/jetty");
+        context.addServlet(new ServletHolder(new OneRecordPhaseOneServlet()), "/record");
+        context.addServlet(new ServletHolder(new OneRecordPhaseTwoServlet()), "/record/*");
         //// END dirty hack
 
-        //jetty.setHandler(context);
-
-        /*ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        context.setContextPath("/");
-
-        */
-
-        /*ServletHolder servletHolder = new ServletHolder(new AnnotatedHttpServletDispatcher());
-        servletHolder.setInitParameter("javax.ws.rs.Application", "be.ugent.mmlab.europeana.webservice.EnrichService");
-        context.addServlet(servletHolder, "/*");*/
-
         jetty.setHandler(context);
-
         jetty.start();
         jetty.join();
     }
@@ -70,5 +51,15 @@ public class WebServer {
         int port = 8080;    // TODO argument
         WebServer webService = new WebServer(port);
         webService.start();
+
+        /*Runtime runtime = Runtime.getRuntime();
+        runtime.addShutdownHook(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("Shutting down record handler...");
+                RecordHandler recordHandler = RecordHandlerFactory.create();
+                recordHandler.close();
+            }
+        }));*/
     }
 }

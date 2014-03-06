@@ -11,7 +11,7 @@ import com.hp.hpl.jena.query.ReadWrite;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.Statement;
+import com.hp.hpl.jena.rdf.model.impl.StatementImpl;
 import com.hp.hpl.jena.sparql.core.DatasetGraph;
 import com.hp.hpl.jena.sparql.core.Quad;
 
@@ -62,7 +62,7 @@ public class Enricher {
             while (qIter.hasNext()) {
                 Quad quad = qIter.next();
                 for (ResourceLinker resourceLinker : resourceLinkers) {
-                    resourceLinker.link(quad);
+                    resourceLinker.link(quad.asTriple());
                 }
             }
             dataset.end();
@@ -95,11 +95,11 @@ public class Enricher {
                 Resource subject = subjectsWithSelection.nextResource();
 
                 // now get all sameAs objects
-                Map<String, Statement> statementMap = modelOps.getSameAsObjToStmt(subject);
+                List<String> candidateObjects = modelOps.getSameAs(subject);
 
                 // rank uri's
                 List<String> rankedUris = new ArrayList<>();
-                rankedUris.addAll(statementMap.keySet());
+                rankedUris.addAll(candidateObjects);
                 final String subjectUri = URLDecoder.decode(subject.getURI(), "UTF-8");
                 final String subjectCombinations = StringCombiner.combinations(subjectUri);
                 Collections.sort(rankedUris, new Comparator<String>() {
@@ -118,9 +118,9 @@ public class Enricher {
                 }
 
                 // remove all statements except the one to preserve
-                statementMap.remove(selectedUri);
-                for (Statement statement : statementMap.values()) {
-                    model.remove(statement);
+                candidateObjects.remove(selectedUri);
+                for (String statement : candidateObjects) {
+                    model.remove(new StatementImpl(subject, null, model.createResource(statement)));
                 }
                 modelOps.removeTodo(subject);
                 model.commit();

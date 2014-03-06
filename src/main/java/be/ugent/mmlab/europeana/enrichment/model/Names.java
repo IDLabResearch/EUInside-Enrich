@@ -15,6 +15,7 @@ public enum Names {
     DBP_DATE_OF_BIRTH("http://dbpedia.org/property/dateOfBirth"),
     DBP_DEATH_DATE("http://dbpedia.org/ontology/deathDate"),
     DBP_DATE_OF_DEATH("http://dbpedia.org/property/dateOfDeath"),
+    DBP_REDIRECT("http://dbpedia.org/ontology/wikiPageRedirects"),
 
     EDM_BEGIN("http://www.europeana.eu/schemas/edm/begin"),  // begin (corporate) or birth (person)
     EDM_END("http://www.europeana.eu/schemas/edm/end"),      // end (corporate) or death (person)
@@ -22,7 +23,7 @@ public enum Names {
     //RG_BIRTH_DATE("http://RDVocab.info/ElementsGr2/"),
 
     // own temporary resources
-    TODO("http://TODO")
+    COMMENT("http://www.w3.org/2000/01/rdf-schema#comment")
     ;
 
     private String uri;

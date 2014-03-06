@@ -1,10 +1,15 @@
 package be.ugent.mmlab.europeana.enrichment.model;
 
 import com.hp.hpl.jena.datatypes.xsd.XSDDateTime;
+import com.hp.hpl.jena.graph.Triple;
+import com.hp.hpl.jena.graph.impl.LiteralLabel;
 import com.hp.hpl.jena.rdf.model.*;
+import com.hp.hpl.jena.rdf.model.impl.StatementImpl;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Copyright 2014 MMLab, UGent
@@ -23,30 +28,31 @@ public class CommonModelOperations {
         model.add(resource, rdfNodeFactory.getSameAsProperty(), model.createResource(uri));
     }
 
-    public StmtIterator getSameAs(final Resource subject) {
-        return ((ModelCon) model).listStatements(subject, rdfNodeFactory.getSameAsProperty(), null); // last parameter = null gives function overloading error without casting. Design bug in Jena?
+    public List<String> getSameAs(final Resource subject) {
+        List<String> objects = new ArrayList<>();
+        NodeIterator sameAsObjects = model.listObjectsOfProperty(subject, rdfNodeFactory.getSameAsProperty());
+        while (sameAsObjects.hasNext()) {
+            RDFNode sameAsObject = sameAsObjects.next();
+            objects.add(sameAsObject.asResource().getURI());
+        }
+        return objects;
     }
 
-    public Map<String, Statement> getSameAsObjToStmt(final Resource subject) {
-        StmtIterator sameAsStatements = getSameAs(subject);
-        Map<String, Statement> results = new HashMap<>();
-        while (sameAsStatements.hasNext()) {
-            Statement statement = sameAsStatements.nextStatement();
-            results.put(statement.getObject().asResource().getURI(), statement);
-        }
-        return results;
+    public void removeSameAs(final Resource subject, final Resource object) {
+        Statement removeStatement = new StatementImpl(subject, rdfNodeFactory.getSameAsProperty(), object);
+        model.remove(removeStatement);
     }
 
     public ResIterator getTodoSubjects() {
-        return model.listSubjectsWithProperty(rdfNodeFactory.getTodoProperty());
+        return model.listSubjectsWithProperty(rdfNodeFactory.getCommentProperty(), rdfNodeFactory.getTodoLiteral());
     }
 
     public void addTodo(final Resource subject) {
-        model.add(subject, rdfNodeFactory.getTodoProperty(), rdfNodeFactory.getTrueLiteral());
+        model.add(subject, rdfNodeFactory.getCommentProperty(), rdfNodeFactory.getTodoLiteral());
     }
 
     public void removeTodo(final Resource subject) {
-        model.remove(subject, rdfNodeFactory.getTodoProperty(), rdfNodeFactory.getTrueLiteral());  // null as last parameter also crashes?? again a design bug in Jena??
+        model.remove(subject, rdfNodeFactory.getCommentProperty(), rdfNodeFactory.getTodoLiteral());
     }
 
     public String getType(final Resource subject) {
@@ -74,9 +80,26 @@ public class CommonModelOperations {
         model.add(subject, rdfNodeFactory.getCreatorProperty(), creator);
     }
 
-    public void addCreatorToRemove(final String subjectUri, final String creatorName) {
+    public Set<Triple> getCreatorTriples() {
+        Set<Triple> creatorTriples = new HashSet<>();
+        Property creatorProperty = rdfNodeFactory.getCreatorProperty();
+        ResIterator subjects = model.listSubjectsWithProperty(creatorProperty);
+        while (subjects.hasNext()) {
+            Resource creator = subjects.nextResource();
+            NodeIterator objectIter = model.listObjectsOfProperty(creator, creatorProperty);
+            while (objectIter.hasNext()) {
+                RDFNode object = objectIter.next();
+                Triple triple = new Triple(creator.asNode(), creatorProperty.asNode(), object.asNode());
+                creatorTriples.add(triple);
+            }
+        }
+        return creatorTriples;
+    }
+
+    public void addCreatorToRemove(final String subjectUri, final LiteralLabel creatorName) {
+        Literal creatorLiteral = ResourceFactory.createLangLiteral(creatorName.getValue().toString(), creatorName.language());
         Resource subject = model.createResource(subjectUri);
-        model.add(subject, rdfNodeFactory.getCreatorProperty(), model.createLiteral(creatorName));
+        model.add(subject, rdfNodeFactory.getCreatorProperty(), creatorLiteral);
     }
 
     public XSDDateTime getBeginDate() {
