@@ -2,10 +2,9 @@ package be.ugent.mmlab.europeana.webservice;
 
 import be.ugent.mmlab.europeana.enrichment2.PhaseOneResult;
 import be.ugent.mmlab.europeana.webservice.client.WebClient;
-import org.junit.After;
 import org.junit.Test;
 
-import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,13 +18,8 @@ public class TestWebClient {
     private final String baseUri = "http://localhost:8080/enrich";
     private WebClient client = new WebClient(baseUri);
 
-    @After
-    public void closeClient() {
-        client.close();
-    }
-
     @Test
-    public void testSendOneRecord() {
+    public void testSendOneRecord() throws IOException {
         final String record = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
                 "<rdf:RDF xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
                 "         xmlns:crm=\"http://www.cidoc-crm.org/rdfs/cidoc_crm_v5.0.2_english_label.rdfs#\"\n" +
@@ -90,10 +84,10 @@ public class TestWebClient {
 
     }
 
-    @Test
-    public void testSendRecordFile() {
+    //@Test
+    /*public void testSendRecordFile() {
         client.postOneRecordPhaseOne(new File("/home/ghaesen/data/europeana/edm/paul_hankar.xml"));
-    }
+    }*/
 
    /* @Test
     public void testSendCompressedBigRecordFile() {
