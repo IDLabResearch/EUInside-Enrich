@@ -53,7 +53,7 @@ public class OneRecordPhaseOneServlet extends HttpServlet {
             }
         } catch (Throwable t) {
             logger.error("Could not process record", t);
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, t.getMessage());
         }
     }
 
