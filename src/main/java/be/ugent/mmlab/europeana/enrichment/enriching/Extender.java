@@ -3,13 +3,13 @@ package be.ugent.mmlab.europeana.enrichment.enriching;
 import be.ugent.mmlab.europeana.enrichment.model.CommonModelOperations;
 import be.ugent.mmlab.europeana.enrichment.model.RdfNodeFactory;
 import com.hp.hpl.jena.rdf.model.*;
+import org.apache.http.client.fluent.Request;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 
 /**
  * Copyright 2014 MMLab, UGent
@@ -17,13 +17,12 @@ import java.net.URISyntaxException;
  */
 public class Extender {
     private final Logger logger = LogManager.getLogger(this.getClass().getName());
-    private final ResourceFetcher resourceFetcher = new ResourceFetcher();
 
     public Model extend(final String type, final Resource subject, final String uri) {
         String n3Uri = toDPPediaN3(uri);
         Model result = null;
         try {
-            String body = resourceFetcher.get(n3Uri);
+            String body = Request.Get(n3Uri).execute().returnContent().asString();
             if (!body.isEmpty()) {
                 // read contents into model
                 Model newModel = toModel(body);
@@ -41,7 +40,7 @@ public class Extender {
                         break;
                 }
             }
-        } catch (IOException | URISyntaxException e) {
+        } catch (IOException e) {
             logger.warn("Could not fetch data from [{}].", uri, e);
         }
 
