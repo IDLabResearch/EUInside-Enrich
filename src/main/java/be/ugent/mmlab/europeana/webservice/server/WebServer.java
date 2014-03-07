@@ -1,7 +1,9 @@
 package be.ugent.mmlab.europeana.webservice.server;
 
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.servlets.GzipFilter;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 import java.io.File;
@@ -35,12 +37,21 @@ public class WebServer {
         };
         WebAppContext context = new WebAppContext();
         context.setConfigurationClasses(configurationClasses);
+        //// END dirty hack
+
         context.setContextPath("/enrich/");
         context.setTempDirectory(new File("/tmp/jetty"));
         context.setResourceBase("/tmp/jetty");
+
+        // set gzip compression support.
+        FilterHolder gzipFilter = new FilterHolder(new GzipFilter());
+        gzipFilter.setInitParameter("methods", "GET,POST");
+        gzipFilter.setInitParameter("mimeTypes", "text/html,text/plain,text/xml,application/xhtml+xml,text/css,application/javascript,image/svg+xml,application/rdf+xml,application/json");
+        context.addFilter(gzipFilter, "/*", null);
+
+        // servlets that handle enriching a single record
         context.addServlet(new ServletHolder(new OneRecordPhaseOneServlet()), "/record");
         context.addServlet(new ServletHolder(new OneRecordPhaseTwoServlet()), "/record/*");
-        //// END dirty hack
 
         jetty.setHandler(context);
         jetty.start();
