@@ -1,4 +1,4 @@
-package be.ugent.mmlab.europeana.enrichment2;
+package be.ugent.mmlab.europeana.enrichment2.oneRecord;
 
 import java.util.HashMap;
 import java.util.List;

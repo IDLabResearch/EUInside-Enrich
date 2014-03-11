@@ -1,4 +1,4 @@
-package be.ugent.mmlab.europeana.enrichment2;
+package be.ugent.mmlab.europeana.enrichment2.oneRecord;
 
 import be.ugent.mmlab.europeana.enrichment.enriching.Extender;
 import be.ugent.mmlab.europeana.enrichment.linking.CreatorResourceLinker;
@@ -21,7 +21,7 @@ import java.util.Set;
 public class EnrichServiceImpl implements EnrichService {
 
     @Override
-    public PhaseOneResult oneRecordPhaseOne(final String record) throws IOException {
+    public PhaseOneResult phaseOne(final String record) throws IOException {
         Set<ResourceLinker> resourceLinkers = initResourceLinkers();
         Model model = ModelFactory.createDefaultModel();
         model.read(new StringReader(record), null);
@@ -54,7 +54,7 @@ public class EnrichServiceImpl implements EnrichService {
     }
 
     @Override
-    public String oneRecordPhaseTwo(final long reference, final Map<String, String> subjectToURI) {
+    public String phaseTwo(final long reference, final Map<String, String> subjectToURI) {
         ModelCache cache = ModelCache.getInstance();
         Model model = cache.get(reference);
         if (model != null) {

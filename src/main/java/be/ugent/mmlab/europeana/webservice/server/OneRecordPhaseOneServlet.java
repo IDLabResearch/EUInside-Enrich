@@ -1,8 +1,8 @@
 package be.ugent.mmlab.europeana.webservice.server;
 
-import be.ugent.mmlab.europeana.enrichment2.EnrichService;
-import be.ugent.mmlab.europeana.enrichment2.EnrichServiceImpl;
-import be.ugent.mmlab.europeana.enrichment2.PhaseOneResult;
+import be.ugent.mmlab.europeana.enrichment2.oneRecord.EnrichService;
+import be.ugent.mmlab.europeana.enrichment2.oneRecord.EnrichServiceImpl;
+import be.ugent.mmlab.europeana.enrichment2.oneRecord.PhaseOneResult;
 import com.google.gson.Gson;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.entity.ContentType;
@@ -110,6 +110,6 @@ public class OneRecordPhaseOneServlet extends HttpServlet {
     }
 
     private PhaseOneResult processRecord(final String record) throws IOException {
-        return enrichService.oneRecordPhaseOne(record);
+        return enrichService.phaseOne(record);
     }
 }

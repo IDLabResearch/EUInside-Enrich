@@ -1,6 +1,6 @@
 package be.ugent.mmlab.europeana.webservice;
 
-import be.ugent.mmlab.europeana.enrichment2.PhaseOneResult;
+import be.ugent.mmlab.europeana.enrichment2.oneRecord.PhaseOneResult;
 import be.ugent.mmlab.europeana.webservice.client.WebClient;
 import org.junit.Test;
 

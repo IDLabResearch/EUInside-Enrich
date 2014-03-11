@@ -53,6 +53,9 @@ public class WebServer {
         context.addServlet(new ServletHolder(new OneRecordPhaseOneServlet()), "/record");
         context.addServlet(new ServletHolder(new OneRecordPhaseTwoServlet()), "/record/*");
 
+        // servlets that handle enriching a lot of records
+        context.addServlet(new ServletHolder(new BulkPhaseOneServlet()), "/bulk/*");
+
         jetty.setHandler(context);
         jetty.start();
         jetty.join();

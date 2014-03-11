@@ -1,7 +1,7 @@
 package be.ugent.mmlab.europeana.webservice.server;
 
-import be.ugent.mmlab.europeana.enrichment2.EnrichService;
-import be.ugent.mmlab.europeana.enrichment2.EnrichServiceImpl;
+import be.ugent.mmlab.europeana.enrichment2.oneRecord.EnrichService;
+import be.ugent.mmlab.europeana.enrichment2.oneRecord.EnrichServiceImpl;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.io.IOUtils;
@@ -71,7 +71,7 @@ public class OneRecordPhaseTwoServlet extends HttpServlet {
     }
 
     private void process(final String referenceStr, final Map<String, String> subjectToURI, final HttpServletResponse response) throws IOException {
-        String enrichedRecord = enrichService.oneRecordPhaseTwo(Long.parseLong(referenceStr), subjectToURI);
+        String enrichedRecord = enrichService.phaseTwo(Long.parseLong(referenceStr), subjectToURI);
 
         response.setContentType("application/rdf+xml");
         response.setCharacterEncoding("UTF-8");

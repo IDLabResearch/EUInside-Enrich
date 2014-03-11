@@ -1,4 +1,4 @@
-package be.ugent.mmlab.europeana.enrichment2;
+package be.ugent.mmlab.europeana.enrichment2.oneRecord;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
