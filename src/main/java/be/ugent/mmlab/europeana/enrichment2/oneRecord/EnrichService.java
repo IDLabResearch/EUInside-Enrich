@@ -10,4 +10,5 @@ import java.util.Map;
 public interface EnrichService {
     public PhaseOneResult phaseOne(final String record) throws IOException;
     public String phaseTwo(final long reference, final Map<String, String> subjectToURI);
+    public String getFromCache(final long reference);
 }

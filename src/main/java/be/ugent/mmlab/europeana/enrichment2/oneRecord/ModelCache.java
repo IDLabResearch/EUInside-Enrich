@@ -53,10 +53,7 @@ public class ModelCache {
 
     public long add(final Model model) {
         long timestamp = System.currentTimeMillis();
-        StringWriter stringWriter = new StringWriter();
-        model.write(stringWriter, "N3");
-        String serializedModel = stringWriter.toString();
-        referenceToModel.put(timestamp, serializedModel);
+        referenceToModel.put(timestamp, serialize(model));
         return timestamp;
     }
 
@@ -70,5 +67,15 @@ public class ModelCache {
         } else {
             return null;
         }
+    }
+
+    public void put(final Model model, final long reference) {
+        referenceToModel.put(reference, serialize(model));
+    }
+
+    private String serialize(final Model model) {
+        StringWriter stringWriter = new StringWriter();
+        model.write(stringWriter, "N3");
+        return stringWriter.toString();
     }
 }

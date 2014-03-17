@@ -30,8 +30,22 @@ public class OneRecordPhaseTwoServlet extends HttpServlet {
     private final Gson gson = new Gson();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String referenceStr = request.getPathInfo().substring(1);
+        if (!referenceStr.isEmpty()) {
+            String model = enrichService.getFromCache(Long.parseLong(referenceStr));
+            if (model != null) {
+                response.setContentType("application/rdf+xml");
+                response.setCharacterEncoding("UTF-8");
+                try(PrintWriter out = response.getWriter()) {
+                    out.print(model);
+                }
+            } else {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Not cached (anymore)");
+            }
+        } else {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Reference expected after last '/'");
+        }
     }
 
     @Override

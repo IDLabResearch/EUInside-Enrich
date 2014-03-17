@@ -84,13 +84,30 @@ public class EnrichServiceImpl implements EnrichService {
                 }
             }
 
-            // return model as string
-            StringWriter out = new StringWriter();
-            model.write(out);
-            return out.toString();
+            // update cache with new model
+            cache.put(model, reference);
+
+            return asString(model);
         } else {
             return null;
         }
+    }
+
+    public String getFromCache(final long reference) {
+        ModelCache cache = ModelCache.getInstance();
+        Model model = cache.get(reference);
+        if (model != null) {
+            return asString(model);
+        } else {
+            return null;
+        }
+    }
+
+    private String asString(final Model model) {
+        // return model as string
+        StringWriter out = new StringWriter();
+        model.write(out);
+        return out.toString();
     }
 
 }
