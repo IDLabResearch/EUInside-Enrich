@@ -8,6 +8,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
@@ -45,5 +46,12 @@ public class WebClient {
         } else {
             return null;
         }
+    }
+
+    public String postBulkPhaseOne(final File gzippedFile) throws IOException {
+        logger.debug("Posting file {}", gzippedFile.getPath());
+        return Request.Post(baseUri + "/bulk/")
+                .bodyFile(gzippedFile, ContentType.create("application/gzip"))
+                .execute().returnContent().asString();
     }
 }

@@ -18,14 +18,6 @@ public abstract class AbstractRun {
         formatter.printHelp(this.getClass().getSimpleName(), help, options, "");
     }
 
-    protected final String determineInput(String inputFile) {
-        String type = "N-TRIPLE";
-        if (inputFile.contains(".rdf")) type = "RDF/XML";
-        else if (inputFile.contains(".n3")) type = "N3";
-        else if (inputFile.contains(".ttl")) type = "TURTLE";
-        return type;
-    }
-
     protected static String getDefaultStorePath() {
         return System.getProperty("java.io.tmpdir") + File.separator + "___TDBStore";
     }

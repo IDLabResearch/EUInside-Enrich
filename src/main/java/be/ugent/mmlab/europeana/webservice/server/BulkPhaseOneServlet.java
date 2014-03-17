@@ -22,7 +22,7 @@ import java.util.Random;
 @MultipartConfig
 public class BulkPhaseOneServlet extends HttpServlet {
     private final Random r = new Random();
-    private final BulkEnrichService bulkEnrichService = new BulkEnrichServiceImpl();
+    private final BulkEnrichService bulkEnrichService = BulkEnrichServiceImpl.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -41,8 +41,8 @@ public class BulkPhaseOneServlet extends HttpServlet {
         String timestamp = Long.toString(System.currentTimeMillis(), Character.MAX_RADIX);
         String rPart = Integer.toString(r.nextInt(), Character.MAX_RADIX);
         String reference = timestamp + rPart;
-        File tempFile = new File(System.getProperty("java.io.tmpdir"), reference);
-        IOUtils.copy(inputStream, new FileOutputStream(tempFile));
+        File rdfFile = new File(System.getProperty("java.io.tmpdir"), reference + ".rdf.gz");
+        IOUtils.copy(inputStream, new FileOutputStream(rdfFile));
         bulkEnrichService.phaseOne(reference);
         return reference;
     }

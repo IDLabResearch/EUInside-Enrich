@@ -16,8 +16,8 @@ public class QueryEndpoint {
     public static Set<QuerySolution> queryDBPedia(final String sparqlQuery) {
         Set<QuerySolution> solutions = new HashSet<>();
         System.out.println("sparqlQuery = " + sparqlQuery);
-        final QueryExecution qExec = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", sparqlQuery);
-        //final QueryExecution qExec = QueryExecutionFactory.sparqlService("http://restdesc.org:8891/sparql", sparqlQuery);
+        //final QueryExecution qExec = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", sparqlQuery);
+        final QueryExecution qExec = QueryExecutionFactory.sparqlService("http://restdesc.org:8891/sparql", sparqlQuery);
         try {
 
             ResultSet resultSet = qExec.execSelect();

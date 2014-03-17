@@ -4,6 +4,7 @@ import be.ugent.mmlab.europeana.enrichment2.oneRecord.PhaseOneResult;
 import be.ugent.mmlab.europeana.webservice.client.WebClient;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -84,14 +85,12 @@ public class TestWebClient {
 
     }
 
-    //@Test
-    /*public void testSendRecordFile() {
-        client.postOneRecordPhaseOne(new File("/home/ghaesen/data/europeana/edm/paul_hankar.xml"));
-    }*/
+    @Test
+    public void testBulkPhaseOne() throws IOException {
+        File recordsFile = new File("/home/ghaesen/data/europeana/edm/all_merged_corrected.rdf.gz");
+        String reference = client.postBulkPhaseOne(recordsFile);
+        System.out.println("reference = " + reference);
+    }
 
-   /* @Test
-    public void testSendCompressedBigRecordFile() {
-        client.postOneRecordPhaseOne(new File("/home/ghaesen/data/europeana/galileo/02301_Ag_IT_MG_catalogue.rdf.xz"), "ref006");
-    }*/
 
 }

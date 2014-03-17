@@ -28,13 +28,10 @@ public class PhaseOne extends AbstractRun {
             }
         }
 
-        // determine type of file, or the language of RDF encoding
-        String inputLanguage = determineInput(inputFile);
-
         // add triples to store
         TDBStore store = new TDBStore(storePath);
         try {
-            store.addFromFile(inputFile, inputLanguage);
+            store.addFromFile(inputFile);
             logger.debug("Triples loaded!");
         } catch (IOException e) {
             logger.error("Could not store triples", e);
