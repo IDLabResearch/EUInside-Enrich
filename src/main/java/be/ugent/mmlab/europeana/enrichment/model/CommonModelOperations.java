@@ -151,4 +151,36 @@ public class CommonModelOperations {
         }
     }
 
+    public List<Literal> getRdfsLabel() {
+        return getLiteral(rdfNodeFactory.getRdfsLabelProperty());
+    }
+
+    public void addPrefLabel(final Resource subject, final List<Literal> prefLabels) {
+        addLiteral(subject, prefLabels, rdfNodeFactory.getPrefLabelProperty());
+    }
+
+    public List<Literal> getAbstract() {
+        return getLiteral(rdfNodeFactory.getDbpAbstractPropery());
+    }
+
+    public void addSkosNote(final Resource subject, final List<Literal> skosNotes) {
+        addLiteral(subject, skosNotes, rdfNodeFactory.getSkosNoteProperty());
+    }
+
+    public List<Literal> getLiteral(final Property property) {
+        final List<Literal> result = new ArrayList<>();
+        NodeIterator nodes = model.listObjectsOfProperty(property);
+        while (nodes.hasNext()) {
+            RDFNode literalNode = nodes.next();
+            result.add(literalNode.asLiteral());
+        }
+        return result;
+    }
+
+    public void addLiteral(final Resource subject, final List<Literal> literals, final Property property) {
+        for (Literal literal : literals) {
+            model.add(subject, property, literal);
+        }
+    }
+
 }

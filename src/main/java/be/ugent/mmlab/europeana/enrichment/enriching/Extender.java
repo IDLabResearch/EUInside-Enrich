@@ -56,6 +56,8 @@ public class Extender {
         // look for begin- and end dates
         agentModelOps.addBeginDate(subject, newModelOps.getBeginDate());
         agentModelOps.addEndDate(subject, newModelOps.getEndDate());
+        agentModelOps.addPrefLabel(subject, newModelOps.getRdfsLabel());
+        agentModelOps.addSkosNote(subject, newModelOps.getAbstract());
 
         // TODO further enrichments
 

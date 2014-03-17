@@ -81,7 +81,7 @@ public class OneRecordPhaseOneServlet extends HttpServlet {
                     writer.println("<legend>" + stringListEntry.getKey() + "</legend>");
                     for (String possibleCandidate : stringListEntry.getValue()) {
                         writer.println("<input id=\"" + counter + "\" type=\"radio\" name=\"" + stringListEntry.getKey() + "\" value=\"" + possibleCandidate + "\"/>");
-                        writer.println("<label for=\"" + counter + "\"><a href=\"" + possibleCandidate + "\">" + possibleCandidate + "</a></label><br/>");
+                        writer.println("<label for=\"" + counter + "\"><a href=\"" + possibleCandidate + "\" target=\"_blank\">" + possibleCandidate + "</a></label><br/>");
                         counter++;
                     }
                     writer.println("</fieldset>");

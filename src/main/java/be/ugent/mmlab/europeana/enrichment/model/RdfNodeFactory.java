@@ -20,6 +20,10 @@ public class RdfNodeFactory {
     private final Property beginProperty;
     private final Property endProperty;
     private final Property dbpRedirectProperty;
+    private final Property rdfsLabelProperty;
+    private final Property prefLabelProperty;
+    private final Property skosNoteProperty;
+    private final Property dbpAbstractPropery;
 
 
     private final Literal todoLiteral;
@@ -43,6 +47,11 @@ public class RdfNodeFactory {
         beginProperty = dummyModel.createProperty(EDM_BEGIN.getUri());
         endProperty = dummyModel.createProperty(EDM_END.getUri());
         dbpRedirectProperty = dummyModel.createProperty(DBP_REDIRECT.getUri());
+        rdfsLabelProperty = dummyModel.createProperty(RDFS_LABEL.getUri());
+        prefLabelProperty = dummyModel.createProperty(PREF_LABEL.getUri());
+        skosNoteProperty = dummyModel.createProperty(SKOS_NOTE.getUri());
+        dbpAbstractPropery = dummyModel.createProperty(DBP_ABSTRACT.getUri());
+
     }
 
     public static RdfNodeFactory getInstance(){
@@ -102,5 +111,21 @@ public class RdfNodeFactory {
 
     public Property getDbpRedirectProperty() {
         return dbpRedirectProperty;
+    }
+
+    public Property getRdfsLabelProperty() {
+        return rdfsLabelProperty;
+    }
+
+    public Property getPrefLabelProperty() {
+        return prefLabelProperty;
+    }
+
+    public Property getSkosNoteProperty() {
+        return skosNoteProperty;
+    }
+
+    public Property getDbpAbstractPropery() {
+        return dbpAbstractPropery;
     }
 }
