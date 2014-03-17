@@ -167,6 +167,10 @@ public class CommonModelOperations {
         addLiteral(subject, skosNotes, rdfNodeFactory.getSkosNoteProperty());
     }
 
+    public List<Resource> getSubjects() {
+        return getResources(rdfNodeFactory.getDctermsSubject());
+    }
+
     public List<Literal> getLiteral(final Property property) {
         final List<Literal> result = new ArrayList<>();
         NodeIterator nodes = model.listObjectsOfProperty(property);
@@ -180,6 +184,32 @@ public class CommonModelOperations {
     public void addLiteral(final Resource subject, final List<Literal> literals, final Property property) {
         for (Literal literal : literals) {
             model.add(subject, property, literal);
+        }
+    }
+
+    public List<Resource> getResources(final Property property) {
+        List<Resource> result = new ArrayList<>();
+        NodeIterator nodes = model.listObjectsOfProperty(property);
+        while (nodes.hasNext()) {
+            RDFNode literalNode = nodes.next();
+            result.add(literalNode.asResource());
+        }
+        return result;
+    }
+
+    public Set<Resource> getSubjectsFor(final Resource object) {
+        Set<Resource> result = new HashSet<>();
+        ResIterator resourceIter = model.listSubjectsWithProperty(rdfNodeFactory.getDctermsSubject(), object);
+        while (resourceIter.hasNext()) {
+            Resource subject = resourceIter.nextResource();
+            result.add(subject);
+        }
+        return result;
+    }
+
+    public void addRelated(final Resource subject, final Set<Resource> relatedResources) {
+        for (Resource relatedResource : relatedResources) {
+            model.add(subject, rdfNodeFactory.getEdmIsRelatedTo(), relatedResource);
         }
     }
 

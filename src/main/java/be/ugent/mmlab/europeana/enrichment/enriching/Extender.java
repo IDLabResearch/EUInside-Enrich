@@ -10,6 +10,9 @@ import org.apache.logging.log4j.Logger;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Copyright 2014 MMLab, UGent
@@ -58,10 +61,30 @@ public class Extender {
         agentModelOps.addEndDate(subject, newModelOps.getEndDate());
         agentModelOps.addPrefLabel(subject, newModelOps.getRdfsLabel());
         agentModelOps.addSkosNote(subject, newModelOps.getAbstract());
+        agentModelOps.addRelated(subject, getRelated(newModelOps.getSubjects()));
 
-        // TODO further enrichments
 
         return agentModel;
+    }
+
+    private Set<Resource> getRelated(final List<Resource> subjects) {
+        Set<Resource> relatedSubjects = new HashSet<>();
+        for (Resource subject : subjects) {
+            String uri = subject.getURI();
+            if (!uri.endsWith("unknown") && !uri.endsWith("missing") && !uri.endsWith("births")) {
+                String n3Uri = toDPPediaN3(uri);
+                try {
+                    String body = Request.Get(n3Uri).execute().returnContent().asString();
+                    Model subjectModel = toModel(body);
+                    CommonModelOperations modelOps = new CommonModelOperations(subjectModel);
+                    relatedSubjects.addAll(modelOps.getSubjectsFor(subject));
+                } catch (IOException e) {
+                    logger.warn("Could not fetch data from [{}].", uri, e);
+                }
+            }
+            System.out.println("uri = " + uri);
+        }
+        return relatedSubjects;
     }
 
     private String toDPPediaN3(final String uri) {

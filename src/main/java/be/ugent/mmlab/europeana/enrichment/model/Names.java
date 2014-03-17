@@ -20,9 +20,11 @@ public enum Names {
     PREF_LABEL("http://www.w3.org/2004/02/skos/core#prefLabel"),
     DBP_ABSTRACT("http://dbpedia.org/ontology/abstract"),
     SKOS_NOTE("http://www.w3.org/2004/02/skos/core#note"),
+    DCTERMS_SUBJECT("http://purl.org/dc/terms/subject"),
 
     EDM_BEGIN("http://www.europeana.eu/schemas/edm/begin"),  // begin (corporate) or birth (person)
     EDM_END("http://www.europeana.eu/schemas/edm/end"),      // end (corporate) or death (person)
+    EDM_IS_RELATED_TO("http://www.europeana.eu/schemas/edm/isRelatedTo"),
 
     //RG_BIRTH_DATE("http://RDVocab.info/ElementsGr2/"),
 

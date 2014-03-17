@@ -24,6 +24,8 @@ public class RdfNodeFactory {
     private final Property prefLabelProperty;
     private final Property skosNoteProperty;
     private final Property dbpAbstractPropery;
+    private final Property dctermsSubject;
+    private final Property edmIsRelatedTo;
 
 
     private final Literal todoLiteral;
@@ -51,6 +53,8 @@ public class RdfNodeFactory {
         prefLabelProperty = dummyModel.createProperty(PREF_LABEL.getUri());
         skosNoteProperty = dummyModel.createProperty(SKOS_NOTE.getUri());
         dbpAbstractPropery = dummyModel.createProperty(DBP_ABSTRACT.getUri());
+        dctermsSubject = dummyModel.createProperty(DCTERMS_SUBJECT.getUri());
+        edmIsRelatedTo = dummyModel.createProperty(EDM_IS_RELATED_TO.getUri());
 
     }
 
@@ -127,5 +131,13 @@ public class RdfNodeFactory {
 
     public Property getDbpAbstractPropery() {
         return dbpAbstractPropery;
+    }
+
+    public Property getDctermsSubject() {
+        return dctermsSubject;
+    }
+
+    public Property getEdmIsRelatedTo() {
+        return edmIsRelatedTo;
     }
 }
