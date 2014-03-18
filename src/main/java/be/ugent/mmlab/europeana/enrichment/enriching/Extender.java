@@ -1,5 +1,6 @@
 package be.ugent.mmlab.europeana.enrichment.enriching;
 
+import be.ugent.mmlab.europeana.enrichment.misc.CountArray;
 import be.ugent.mmlab.europeana.enrichment.model.CommonModelOperations;
 import be.ugent.mmlab.europeana.enrichment.model.RdfNodeFactory;
 import com.hp.hpl.jena.rdf.model.*;
@@ -10,9 +11,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Copyright 2014 MMLab, UGent
@@ -67,24 +66,26 @@ public class Extender {
         return agentModel;
     }
 
-    private Set<Resource> getRelated(final List<Resource> subjects) {
-        Set<Resource> relatedSubjects = new HashSet<>();
+    private List<String> getRelated(final List<Resource> subjects) {
+        CountArray<String> relatedSubjects = new CountArray<>();
         for (Resource subject : subjects) {
             String uri = subject.getURI();
-            if (!uri.endsWith("unknown") && !uri.endsWith("missing") && !uri.endsWith("births")) {
+            if (!uri.endsWith("unknown") && !uri.endsWith("missing") && !uri.endsWith("births") && !uri.endsWith("deaths")) {
                 String n3Uri = toDPPediaN3(uri);
                 try {
                     String body = Request.Get(n3Uri).execute().returnContent().asString();
                     Model subjectModel = toModel(body);
                     CommonModelOperations modelOps = new CommonModelOperations(subjectModel);
-                    relatedSubjects.addAll(modelOps.getSubjectsFor(subject));
+                    for (Resource resource : modelOps.getSubjectsFor(subject)) {
+                        relatedSubjects.add(resource.getURI());
+                    }
                 } catch (IOException e) {
                     logger.warn("Could not fetch data from [{}].", uri, e);
                 }
             }
-            System.out.println("uri = " + uri);
         }
-        return relatedSubjects;
+
+        return relatedSubjects.getSortedByCount(relatedSubjects.getHighestCount());
     }
 
     private String toDPPediaN3(final String uri) {

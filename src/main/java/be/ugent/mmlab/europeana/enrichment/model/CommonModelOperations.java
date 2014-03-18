@@ -207,8 +207,8 @@ public class CommonModelOperations {
         return result;
     }
 
-    public void addRelated(final Resource subject, final Set<Resource> relatedResources) {
-        for (Resource relatedResource : relatedResources) {
+    public void addRelated(final Resource subject, final List<String> relatedResources) {
+        for (String relatedResource : relatedResources) {
             model.add(subject, rdfNodeFactory.getEdmIsRelatedTo(), relatedResource);
         }
     }
