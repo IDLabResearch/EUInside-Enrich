@@ -1,5 +1,6 @@
 package be.ugent.mmlab.europeana.enrichment.dataset;
 
+import be.ugent.mmlab.europeana.enrichment.misc.StringCombiner;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QuerySolution;
@@ -9,14 +10,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by ghaesen on 12/17/13.
+ * Copyright 2014 MMLab, UGent
+ * Created by ghaesen on 3/18/14.
  */
-public class QueryEndpoint {
+public class Virtuoso implements Dataset {
 
-    public static Set<QuerySolution> queryDBPedia(final String sparqlQuery) {
+    private final String sparqlEndpoint = "http://dbpedia.org/sparql";  // TODO: via config
+    //private final String sparqlEndpoint = "http://restdesc.org:8891/sparql";
+
+    private Set<QuerySolution> queryDBPedia(final String sparqlQuery) {
         Set<QuerySolution> solutions = new HashSet<>();
         System.out.println("sparqlQuery = " + sparqlQuery);
-        final QueryExecution qExec = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", sparqlQuery);
+        final QueryExecution qExec = QueryExecutionFactory.sparqlService(sparqlEndpoint, sparqlQuery);
         //final QueryExecution qExec = QueryExecutionFactory.sparqlService("http://restdesc.org:8891/sparql", sparqlQuery);
         try {
 
@@ -32,11 +37,26 @@ public class QueryEndpoint {
         return solutions;
     }
 
-    public static Set<String> queryDBPediaForLabel(final String label) {
+    @Override
+    public Set<String> searchSubject(final String subject) {
 
+        // prepare query for bif:contains
+        final String nameCombinationsOr = StringCombiner.combinations(subject);  // this returns names concatenated with 'or'
+        final String nameCombinationsAnd = nameCombinationsOr.replaceAll(" or ", " and ");
+
+        // first try "and"
+        Set<String> dbPediaUris = queryDBPediaForLabel(nameCombinationsAnd);
+        if (dbPediaUris.isEmpty()) {
+            // then try "or"
+            dbPediaUris = queryDBPediaForLabel(nameCombinationsOr);
+        }
+
+        return dbPediaUris;
+    }
+
+    private Set<String> queryDBPediaForLabel(final String label) {
         // escape single quotes?
         String newLabel = label.replaceAll("-", "_");
-        //newLabel = newLabel.replaceAll("'", "\\\\u0027");
         newLabel = newLabel.replaceAll("'", " and ");
 
         Set<String> solutions = new HashSet<>();

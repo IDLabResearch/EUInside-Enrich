@@ -1,7 +1,5 @@
 package be.ugent.mmlab.europeana.enrichment.linking;
 
-import be.ugent.mmlab.europeana.enrichment.dataset.QueryEndpoint;
-import be.ugent.mmlab.europeana.enrichment.misc.StringCombiner;
 import be.ugent.mmlab.europeana.enrichment.model.CommonModelOperations;
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Triple;
@@ -68,19 +66,9 @@ public class CreatorResourceLinker extends AbstractResourceLinker {
             // add "<creator name> <type> <agent>"
             addModelOps.addAgentType(creatorNode);
             addModelOps.addTodo(creatorNode);
-
+            Set<String> dbPediaUris = dataset.searchSubject(name);
             // TODO: add foaf name? Or first check dbPedia for preferred label?
 
-            // query dbPedia
-            final String nameCombinationsOr = StringCombiner.combinations(name);  // this returns names concatenated with 'or'
-            final String nameCombinationsAnd = nameCombinationsOr.replaceAll(" or ", " and ");
-
-            // first try "and"
-            Set<String> dbPediaUris = QueryEndpoint.queryDBPediaForLabel(nameCombinationsAnd);
-            if (dbPediaUris.isEmpty()) {
-                // then try "or"
-                dbPediaUris = QueryEndpoint.queryDBPediaForLabel(nameCombinationsOr);
-            }
 
             for (String dbPediaUri : dbPediaUris) {
                 // add "<creator name> sameAs <dbPediaUri>"
