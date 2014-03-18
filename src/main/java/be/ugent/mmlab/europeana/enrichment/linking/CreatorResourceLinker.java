@@ -1,8 +1,8 @@
 package be.ugent.mmlab.europeana.enrichment.linking;
 
+import be.ugent.mmlab.europeana.enrichment.dataset.QueryEndpoint;
 import be.ugent.mmlab.europeana.enrichment.misc.StringCombiner;
 import be.ugent.mmlab.europeana.enrichment.model.CommonModelOperations;
-import be.ugent.mmlab.europeana.enrichment.sparql.QueryEndpoint;
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Triple;
 import com.hp.hpl.jena.graph.impl.LiteralLabel;

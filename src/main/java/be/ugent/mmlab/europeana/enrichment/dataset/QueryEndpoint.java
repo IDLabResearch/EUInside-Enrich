@@ -1,4 +1,4 @@
-package be.ugent.mmlab.europeana.enrichment.sparql;
+package be.ugent.mmlab.europeana.enrichment.dataset;
 
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
