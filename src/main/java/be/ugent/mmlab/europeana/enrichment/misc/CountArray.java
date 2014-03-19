@@ -15,10 +15,28 @@ public class CountArray<C extends Comparable<C>> {
         public CountObject(C cObject) {
             this.cObject = cObject;
             count = 1;
+            if (highestCount == 0) {
+                highestCount = 1;
+            }
+        }
+
+        public CountObject(C cObject, final int count) {
+            this.cObject = cObject;
+            this.count = count;
+            if (count > highestCount) {
+                highestCount = count;
+            }
         }
 
         public void increment() {
             count++;
+            if (count > highestCount) {
+                highestCount = count;
+            }
+        }
+
+        public void increment(int i) {
+            count += i;
             if (count > highestCount) {
                 highestCount = count;
             }
@@ -57,6 +75,29 @@ public class CountArray<C extends Comparable<C>> {
         } else {
             countObject.increment();
         }
+    }
+
+    public void addAll(final Collection<C> collection) {
+        for (C c : collection) {
+            add(c);
+        }
+    }
+
+    public void addAll(final CountArray<C> countArray) {
+        for (Map.Entry<C, CountObject<C>> cCountObjectEntry : countArray.countObjects.entrySet()) {
+            C object = cCountObjectEntry.getKey();
+            CountObject<C> countObject = countObjects.get(object);
+            if (countObject == null) {
+                countObject = new CountObject<>(object, cCountObjectEntry.getValue().count);
+                countObjects.put(object, countObject);
+            } else {
+                countObject.increment(cCountObjectEntry.getValue().count);
+            }
+        }
+    }
+
+    public void set(C object, final int count) {
+        countObjects.put(object, new CountObject<>(object, count));
     }
 
     public List<C> getSortedByCount(int minimumCount) {

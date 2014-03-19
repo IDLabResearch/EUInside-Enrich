@@ -1,5 +1,7 @@
 package be.ugent.mmlab.europeana;
 
+import be.ugent.mmlab.europeana.enrichment.dataset.Dataset;
+import be.ugent.mmlab.europeana.enrichment.dataset.HDTDataset;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -14,6 +16,7 @@ import org.rdfhdt.hdt.triples.TripleString;
 
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Copyright 2014 MMLab, UGent
@@ -134,6 +137,24 @@ public class TestHDT {
 
         end = System.currentTimeMillis();
         printTimings();
+    }
+
+    @Test
+    public void testHDTDataset() {
+        searchAndPrint("Paul Hankar");
+        searchAndPrint("George Adams Junior");
+        searchAndPrint("Michel-Ferdinand d'Albert d'Ailly Duc de Chaulnes");
+
+    }
+
+    private void searchAndPrint(final String subject) {
+        System.out.println("==== " + subject + " ====");
+        Dataset dataset = HDTDataset.getInstance();
+        List<String> subjects = dataset.searchSubject(subject);
+        for (String s : subjects) {
+            System.out.println(" --> " + s);
+        }
+        System.out.println();
     }
 
     private void printTimings () {

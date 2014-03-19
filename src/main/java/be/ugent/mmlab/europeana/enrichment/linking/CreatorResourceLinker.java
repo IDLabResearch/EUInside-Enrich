@@ -9,6 +9,7 @@ import com.hp.hpl.jena.rdf.model.Resource;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -66,7 +67,7 @@ public class CreatorResourceLinker extends AbstractResourceLinker {
             // add "<creator name> <type> <agent>"
             addModelOps.addAgentType(creatorNode);
             addModelOps.addTodo(creatorNode);
-            Set<String> dbPediaUris = dataset.searchSubject(name);
+            List<String> dbPediaUris = dataset.searchSubject(name);
             // TODO: add foaf name? Or first check dbPedia for preferred label?
 
 

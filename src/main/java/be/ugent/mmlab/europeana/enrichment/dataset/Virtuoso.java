@@ -6,7 +6,9 @@ import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -38,14 +40,14 @@ public class Virtuoso implements Dataset {
     }
 
     @Override
-    public Set<String> searchSubject(final String subject) {
+    public List<String> searchSubject(final String subject) {
 
         // prepare query for bif:contains
         final String nameCombinationsOr = StringCombiner.combinations(subject);  // this returns names concatenated with 'or'
         final String nameCombinationsAnd = nameCombinationsOr.replaceAll(" or ", " and ");
 
         // first try "and"
-        Set<String> dbPediaUris = queryDBPediaForLabel(nameCombinationsAnd);
+        List<String> dbPediaUris = queryDBPediaForLabel(nameCombinationsAnd);
         if (dbPediaUris.isEmpty()) {
             // then try "or"
             dbPediaUris = queryDBPediaForLabel(nameCombinationsOr);
@@ -54,12 +56,12 @@ public class Virtuoso implements Dataset {
         return dbPediaUris;
     }
 
-    private Set<String> queryDBPediaForLabel(final String label) {
+    private List<String> queryDBPediaForLabel(final String label) {
         // escape single quotes?
         String newLabel = label.replaceAll("-", "_");
         newLabel = newLabel.replaceAll("'", " and ");
 
-        Set<String> solutions = new HashSet<>();
+        List<String> solutions = new ArrayList<>();
         String query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" +
                 "PREFIX dcterms: <http://purl.org/dc/terms/> \n" +
                 //"PREFIX bif: <http://www.openlinksw.com/schema/sparql/extensions#> \n" +
