@@ -3,6 +3,8 @@ package be.ugent.mmlab.europeana;
 import be.ugent.mmlab.europeana.enrichment.misc.StringCombiner;
 import org.junit.Test;
 
+import java.util.List;
+
 /**
  * Copyright 2014 MMLab, UGent
  * Created by ghaesen on 1/27/14.
@@ -13,7 +15,7 @@ public class TestRegex {
     public void testStringCombiner() {
         String[] input = {
                 "A B C D",
-                "einstein",
+                "Einstein",
                 "Einstein, Zweisteiner",
                 "Alessandro Tognozzi (fonditore)",
                 "Andreas Albrecht [attr.]",
@@ -29,31 +31,13 @@ public class TestRegex {
         };
         for (String s : input) {
             System.out.println(s);
-            String normalized = StringCombiner.combinations(s);
-            System.out.println(" --> " + normalized);
+            List<String> normalizedAndSplit = StringCombiner.normalizeAndSplit(s);
+            for (String split : normalizedAndSplit) {
+                System.out.println("     " + split);
+            }
+            String combinated = StringCombiner.combinations(s);
+            System.out.println(" --> " + combinated);
+            System.out.println();
         }
     }
-
-    /*private List<String> normalizeName(final String name) {
-        List<String> result = new ArrayList<>();
-
-        // remove everything between (square) brackets
-        String normName = name.replaceAll("[\\[\\(].*?[\\]\\)]", ""); // extra '?' -> lazy matching
-
-        // remove everything starting with small letters
-        normName = normName.replaceAll("\\s\\p{javaLowerCase}+", "");
-        normName = normName.replaceAll("'", " ");
-
-        // split
-        String[] parts = normName.split("[,&]");
-        for (String part : parts) {
-            if (!part.isEmpty()) {
-                result.add(part.trim());
-            }
-        }
-
-        //result.add(normName);
-
-        return result;
-    } */
 }

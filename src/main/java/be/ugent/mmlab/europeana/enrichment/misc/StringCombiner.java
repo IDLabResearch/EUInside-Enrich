@@ -8,7 +8,7 @@ import java.util.*;
 public class StringCombiner {
 
     public static String combinations(final String input) {
-        List<String> normalizedNames = normalizeName(input);
+        List<String> normalizedNames = normalizeName(input, "[,&]");
         StringBuilder str = new StringBuilder();
 
         if (!normalizedNames.isEmpty()) {
@@ -16,7 +16,6 @@ public class StringCombiner {
                 Set<String> results = calcCombination(normalizedName);
                 if (!results.isEmpty()) {
                     for (String result : results) {
-                        result = result.replaceAll("'", "");
                         str.append(result).append(" or ");
                     }
                     str.delete(str.length() - 4, str.length());
@@ -29,7 +28,11 @@ public class StringCombiner {
         return str.toString();
     }
 
-    private static List<String> normalizeName(final String name) {
+    public static List<String> normalizeAndSplit(final String name) {
+        return normalizeName(name, "[,& ]");
+    }
+
+    private static List<String> normalizeName(final String name, final String splitRegex) {
         List<String> result = new ArrayList<>();
 
         String normName = name.substring(name.lastIndexOf('/') + 1).replaceAll("_", " ");
@@ -41,9 +44,10 @@ public class StringCombiner {
         normName = normName.replaceAll("\\s\\p{javaLowerCase}+", " ");
         normName = normName.replaceAll("^\\p{javaLowerCase}+", "");
         normName = normName.replaceAll("-", ",");
+        normName = normName.replaceAll("'", "");
 
         // split
-        String[] parts = normName.split("[,&]");
+        String[] parts = normName.split(splitRegex);
         for (String part : parts) {
             part = part.trim();
             if (!part.isEmpty()) {
