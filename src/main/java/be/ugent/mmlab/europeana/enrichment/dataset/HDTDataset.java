@@ -2,13 +2,19 @@ package be.ugent.mmlab.europeana.enrichment.dataset;
 
 import be.ugent.mmlab.europeana.enrichment.misc.CountArray;
 import be.ugent.mmlab.europeana.enrichment.misc.StringCombiner;
+import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.rdfhdt.hdt.dictionary.DictionarySection;
+import org.rdfhdt.hdt.exceptions.NotFoundException;
 import org.rdfhdt.hdt.hdt.HDT;
 import org.rdfhdt.hdt.hdt.HDTManager;
+import org.rdfhdt.hdt.triples.IteratorTripleString;
+import org.rdfhdt.hdt.triples.TripleString;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -55,6 +61,28 @@ public class HDTDataset implements Dataset {
             return scoredEntries.getSortedByCount(scoredEntries.getHighestCount());
         }
         return Collections.emptyList();
+    }
+
+    @Override
+    public Model getModelFor(String subjectResource) {
+        logger.debug("Generating model for [{}]", subjectResource);
+
+        try {
+            StringBuilder str = new StringBuilder();
+            IteratorTripleString tripleIter = hdt.search(subjectResource, "", "");
+            while (tripleIter.hasNext()) {
+                TripleString tripleString = tripleIter.next();
+                str.append(tripleString.asNtriple());
+            }
+            StringReader in = new StringReader(str.toString());
+
+            Model model = ModelFactory.createDefaultModel();
+            model.read(in, "http://dbPedia.org", "N-TRIPLE");
+            return model;
+        } catch (NotFoundException | IOException e) {
+            logger.error("Subject {} not found!", subjectResource, e);
+            return null;
+        }
     }
 
     private CountArray<String> iterateOn(final DictionarySection dictionarySection, final List<String> subject) {

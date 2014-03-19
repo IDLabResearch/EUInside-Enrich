@@ -1,5 +1,6 @@
 package be.ugent.mmlab.europeana.enrichment.auto;
 
+import be.ugent.mmlab.europeana.enrichment.dataset.HDTDataset;
 import be.ugent.mmlab.europeana.enrichment.enriching.Extender;
 import be.ugent.mmlab.europeana.enrichment.linking.CreatorResourceLinker;
 import be.ugent.mmlab.europeana.enrichment.linking.ResourceLinker;
@@ -83,7 +84,9 @@ public class Enricher {
     public void phaseTwo(final Dataset dataset, final UserInterface userInterface) throws UnsupportedEncodingException {
         // select triples that need selection
         Model model = dataset.getDefaultModel();
-        Extender extender = new Extender();
+        be.ugent.mmlab.europeana.enrichment.dataset.Dataset dataset1 = HDTDataset.getInstance();
+        //be.ugent.mmlab.europeana.enrichment.dataset.Dataset dataset1 = new Virtuoso();
+        Extender extender = new Extender(dataset1);
         try {
             model.begin();
 

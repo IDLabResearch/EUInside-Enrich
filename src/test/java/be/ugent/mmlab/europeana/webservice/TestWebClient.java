@@ -37,8 +37,8 @@ public class TestWebClient {
                 "         xmlns:wgs84=\"http://www.w3.org/2003/01/geo/wgs84_pos#\"\n" +
                 "         xmlns:xalan=\"http://xml.apache.org/xalan\">\n" +
                 "   <edm:ProvidedCHO rdf:about=\"http://SET_PROVIDEDCHO_BASEURL/Catalogue en ligne Carmentis/RMAH-145970-FR\">\n" +
-                "      <!--dc:creator xml:lang=\"fr\">Hankar, Paul</dc:creator-->\n" +
-                "      <dc:creator>George Adams Junior</dc:creator>\n" +
+                "      <dc:creator xml:lang=\"fr\">Hankar, Paul</dc:creator>\n" +
+                "      <!--dc:creator>George Adams Junior</dc:creator-->\n" +
                 "      <dc:description xml:lang=\"fr\">number-of-objects: 01 </dc:description>\n" +
                 "      <dc:format>Matière manufacturée &gt; Végétal &gt; Papier</dc:format>\n" +
                 "      <dc:format>Arts graphiques &gt; Peinture (art graphique) &gt; Lavis &gt; Encre de chine</dc:format>\n" +

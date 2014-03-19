@@ -17,6 +17,7 @@ public enum Names {
     DBP_DATE_OF_DEATH("http://dbpedia.org/property/dateOfDeath"),
     DBP_REDIRECT("http://dbpedia.org/ontology/wikiPageRedirects"),
     RDFS_LABEL("http://www.w3.org/2000/01/rdf-schema#label"),
+    RDFS_COMMENT("http://www.w3.org/2000/01/rdf-schema#comment"),
     PREF_LABEL("http://www.w3.org/2004/02/skos/core#prefLabel"),
     DBP_ABSTRACT("http://dbpedia.org/ontology/abstract"),
     SKOS_NOTE("http://www.w3.org/2004/02/skos/core#note"),

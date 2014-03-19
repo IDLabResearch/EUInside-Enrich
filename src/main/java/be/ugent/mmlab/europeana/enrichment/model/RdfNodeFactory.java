@@ -1,6 +1,9 @@
 package be.ugent.mmlab.europeana.enrichment.model;
 
-import com.hp.hpl.jena.rdf.model.*;
+import com.hp.hpl.jena.rdf.model.Literal;
+import com.hp.hpl.jena.rdf.model.Property;
+import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.ResourceFactory;
 
 import static be.ugent.mmlab.europeana.enrichment.model.Names.*;
 
@@ -26,6 +29,7 @@ public class RdfNodeFactory {
     private final Property dbpAbstractPropery;
     private final Property dctermsSubject;
     private final Property edmIsRelatedTo;
+    private final Property rdfsCommentProperty;
 
 
     private final Literal todoLiteral;
@@ -34,27 +38,27 @@ public class RdfNodeFactory {
     private static RdfNodeFactory instance;
 
     private RdfNodeFactory() {
-        final Model dummyModel = ModelFactory.createDefaultModel();
-        commentProperty = dummyModel.createProperty(COMMENT.getUri());
-        sameAsProperty = dummyModel.createProperty(SAME_AS.getUri());
-        typeProperty = dummyModel.createProperty(TYPE.getUri());
-        todoLiteral = dummyModel.createTypedLiteral("__TODO__");
-        creatorProperty = dummyModel.createProperty(CREATOR.getUri());
-        agentResource = dummyModel.createResource(AGENT.getUri());
+        commentProperty = ResourceFactory.createProperty(COMMENT.getUri());
+        sameAsProperty = ResourceFactory.createProperty(SAME_AS.getUri());
+        typeProperty = ResourceFactory.createProperty(TYPE.getUri());
+        todoLiteral = ResourceFactory.createTypedLiteral("__TODO__");
+        creatorProperty = ResourceFactory.createProperty(CREATOR.getUri());
+        agentResource = ResourceFactory.createResource(AGENT.getUri());
 
-        birthDateProperty = dummyModel.createProperty(DBP_BIRTH_DATE.getUri());
-        dateOfBirthProperty = dummyModel.createProperty(DBP_DATE_OF_BIRTH.getUri());
-        deathDateProperty = dummyModel.createProperty(DBP_DEATH_DATE.getUri());
-        dateOfDeathProperty = dummyModel.createProperty(DBP_DATE_OF_DEATH.getUri());
-        beginProperty = dummyModel.createProperty(EDM_BEGIN.getUri());
-        endProperty = dummyModel.createProperty(EDM_END.getUri());
-        dbpRedirectProperty = dummyModel.createProperty(DBP_REDIRECT.getUri());
-        rdfsLabelProperty = dummyModel.createProperty(RDFS_LABEL.getUri());
-        prefLabelProperty = dummyModel.createProperty(PREF_LABEL.getUri());
-        skosNoteProperty = dummyModel.createProperty(SKOS_NOTE.getUri());
-        dbpAbstractPropery = dummyModel.createProperty(DBP_ABSTRACT.getUri());
-        dctermsSubject = dummyModel.createProperty(DCTERMS_SUBJECT.getUri());
-        edmIsRelatedTo = dummyModel.createProperty(EDM_IS_RELATED_TO.getUri());
+        birthDateProperty = ResourceFactory.createProperty(DBP_BIRTH_DATE.getUri());
+        dateOfBirthProperty = ResourceFactory.createProperty(DBP_DATE_OF_BIRTH.getUri());
+        deathDateProperty = ResourceFactory.createProperty(DBP_DEATH_DATE.getUri());
+        dateOfDeathProperty = ResourceFactory.createProperty(DBP_DATE_OF_DEATH.getUri());
+        beginProperty = ResourceFactory.createProperty(EDM_BEGIN.getUri());
+        endProperty = ResourceFactory.createProperty(EDM_END.getUri());
+        dbpRedirectProperty = ResourceFactory.createProperty(DBP_REDIRECT.getUri());
+        rdfsLabelProperty = ResourceFactory.createProperty(RDFS_LABEL.getUri());
+        prefLabelProperty = ResourceFactory.createProperty(PREF_LABEL.getUri());
+        rdfsCommentProperty = ResourceFactory.createProperty(RDFS_COMMENT.getUri());
+        skosNoteProperty = ResourceFactory.createProperty(SKOS_NOTE.getUri());
+        dbpAbstractPropery = ResourceFactory.createProperty(DBP_ABSTRACT.getUri());
+        dctermsSubject = ResourceFactory.createProperty(DCTERMS_SUBJECT.getUri());
+        edmIsRelatedTo = ResourceFactory.createProperty(EDM_IS_RELATED_TO.getUri());
 
     }
 
@@ -139,5 +143,9 @@ public class RdfNodeFactory {
 
     public Property getEdmIsRelatedTo() {
         return edmIsRelatedTo;
+    }
+
+    public Property getRdfsCommentProperty() {
+        return rdfsCommentProperty;
     }
 }

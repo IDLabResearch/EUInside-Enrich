@@ -5,7 +5,14 @@ import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
+import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
+import org.apache.http.client.fluent.Request;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -16,6 +23,7 @@ import java.util.Set;
  * Created by ghaesen on 3/18/14.
  */
 public class Virtuoso implements Dataset {
+    private final Logger logger = LogManager.getLogger(this.getClass());
 
     private final String sparqlEndpoint = "http://dbpedia.org/sparql";  // TODO: via config
     //private final String sparqlEndpoint = "http://restdesc.org:8891/sparql";
@@ -54,6 +62,30 @@ public class Virtuoso implements Dataset {
         }
 
         return dbPediaUris;
+    }
+
+    @Override
+    public Model getModelFor(String subjectResource) {
+        String n3Uri = toDPPediaN3(subjectResource);
+        try {
+            String body = Request.Get(n3Uri).execute().returnContent().asString();
+            if (!body.isEmpty()) {
+                Model newModel = ModelFactory.createDefaultModel();
+                newModel.read(new StringReader(body), null, "N3");
+                return newModel;
+            }
+        } catch (IOException e) {
+            logger.error("Could nog get resource [{}] from DBPedia", subjectResource, e);
+        }
+        return null;
+    }
+
+    private String toDPPediaN3(final String uri) {
+        String newUri = uri;
+        if (uri.contains("dbpedia.org/resource")) {
+            newUri = newUri.replace("resource", "data") + ".n3";
+        }
+        return newUri;
     }
 
     private List<String> queryDBPediaForLabel(final String label) {

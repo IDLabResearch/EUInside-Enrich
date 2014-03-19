@@ -1,5 +1,7 @@
 package be.ugent.mmlab.europeana.enrichment2.oneRecord;
 
+import be.ugent.mmlab.europeana.enrichment.dataset.Dataset;
+import be.ugent.mmlab.europeana.enrichment.dataset.HDTDataset;
 import be.ugent.mmlab.europeana.enrichment.enriching.Extender;
 import be.ugent.mmlab.europeana.enrichment.linking.CreatorResourceLinker;
 import be.ugent.mmlab.europeana.enrichment.linking.ResourceLinker;
@@ -59,7 +61,9 @@ public class EnrichServiceImpl implements EnrichService {
         Model model = cache.get(reference);
         if (model != null) {
             CommonModelOperations modelOperations = new CommonModelOperations(model);
-            Extender extender = new Extender();
+            Dataset dataset = HDTDataset.getInstance();
+            //Dataset dataset = new Virtuoso();
+            Extender extender = new Extender(dataset);
 
             for (Map.Entry<String, String> subjectToSameAs : subjectToURI.entrySet()) {
                 String subjectStr = subjectToSameAs.getKey();

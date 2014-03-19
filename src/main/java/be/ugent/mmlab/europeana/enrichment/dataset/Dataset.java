@@ -1,5 +1,7 @@
 package be.ugent.mmlab.europeana.enrichment.dataset;
 
+import com.hp.hpl.jena.rdf.model.Model;
+
 import java.util.List;
 
 /**
@@ -17,4 +19,6 @@ public interface Dataset {
      * @return Subjects related to (in a syntactical way) the given sear subject.
      */
     public List<String> searchSubject(final String subject);
+
+    public Model getModelFor(final String subjectResource);
 }

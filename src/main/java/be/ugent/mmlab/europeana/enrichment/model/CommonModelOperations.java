@@ -160,7 +160,9 @@ public class CommonModelOperations {
     }
 
     public List<Literal> getAbstract() {
-        return getLiteral(rdfNodeFactory.getDbpAbstractPropery());
+        List<Literal> notes = getLiteral(rdfNodeFactory.getDbpAbstractPropery());
+        notes.addAll(getLiteral(rdfNodeFactory.getRdfsCommentProperty()));
+        return notes;
     }
 
     public void addSkosNote(final Resource subject, final List<Literal> skosNotes) {
