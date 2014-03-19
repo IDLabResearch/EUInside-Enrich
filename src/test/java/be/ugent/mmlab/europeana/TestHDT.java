@@ -144,7 +144,7 @@ public class TestHDT {
         searchAndPrint("Paul Hankar");
         searchAndPrint("George Adams Junior");
         searchAndPrint("Michel-Ferdinand d'Albert d'Ailly Duc de Chaulnes");
-
+        searchAndPrint("Spighi");
     }
 
     private void searchAndPrint(final String subject) {

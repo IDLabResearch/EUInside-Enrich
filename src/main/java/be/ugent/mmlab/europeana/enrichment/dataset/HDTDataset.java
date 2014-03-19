@@ -51,8 +51,6 @@ public class HDTDataset implements Dataset {
             // first try literal search
             CountArray<String> scoredEntries = iterateOn(hdt.getDictionary().getSubjects(), subjectParts);
             CountArray<String> scoredEntries2 = iterateOn(hdt.getDictionary().getShared(), subjectParts);
-            //List<String> ranked1 = scoredEntries.getSortedByCount(scoredEntries.getHighestCount());
-            //List<String> ranked2 = scoredEntries2.getSortedByCount(scoredEntries2.getHighestCount());
             scoredEntries.addAll(scoredEntries2);
             return scoredEntries.getSortedByCount(scoredEntries.getHighestCount());
         }
@@ -63,7 +61,7 @@ public class HDTDataset implements Dataset {
         CountArray<String> scores = new CountArray<>();
         Iterator<? extends CharSequence> entryIter = dictionarySection.getSortedEntries();
 
-        int hiscore = 1;
+        int hiscore = Math.min(2, subject.size());
 
         while (entryIter.hasNext()) {
             String entry = entryIter.next().toString();
