@@ -49,6 +49,10 @@ public class TestRegex {
                 "L'état, c'est Moi",
                 "Aaáeéiíoóöőuúüű AÁEÉIÍOÓÖŐUÚÜŰ",
                 "Ibr\u00E2him 'Ibn Sa\u00EEd as Sahl\u00EC",
+                "A$_|*@B/?",
+                "alkotó: Francisco de Goya y Lucientes, spanyol (Fuendetodos [Zaragoza] 1746 – 1828 Bordeaux)",
+                "Fotós/Készítő / Photographer/Creator: Martsa Alajos  (1910-1979) ",
+                "Zuber &amp; cie, Jean",
                 "A B C D",
                 "Einstein",
                 "Einstein, Zweisteiner",
@@ -62,12 +66,15 @@ public class TestRegex {
                 "Charles-Philippe Robin",
                 "Ditta G. & S. Merz",
                 "Ditta Youngs & Son",
-                "Egnazio Danti or Giovanni Battista Giusti [attr.]"
+                "Egnazio Danti or Giovanni Battista Giusti [attr.]",
+                "Henry van de Velde"
         };
         for (String s : input) {
             System.out.println(s);
-            String normalized = Normalizer.normalize(s);
-            System.out.println(" --> " + normalized);
+            String normalizedForIndexing = Normalizer.normalizeForIndexing(s);
+            String normalizedForQuerying = Normalizer.normalizeForQuerying(s);
+            System.out.println(" --> " + normalizedForIndexing);
+            System.out.println(" --> " + normalizedForQuerying);
             System.out.println();
         }
     }

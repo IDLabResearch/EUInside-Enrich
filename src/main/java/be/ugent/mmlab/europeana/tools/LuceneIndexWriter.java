@@ -119,7 +119,7 @@ public class LuceneIndexWriter {
                         // get rid of language in label, and normalize
                         int indexOfLastQuote = label.indexOf('"', 1);
                         label = label.substring(1, indexOfLastQuote);
-                        label = Normalizer.normalize(label);
+                        label = Normalizer.normalizeForIndexing(label);
 
                         labelField.setStringValue(label);
                         document.add(labelField);

@@ -36,8 +36,8 @@ public class TestLuceneIndex {
 
     @Test
     public void testReadAndQuery() throws IOException, ParseException {
-        String searchTerm = "Euclides";
-        searchTerm = Normalizer.normalize(searchTerm);
+        String searchTerm = "Adams George";
+        searchTerm = Normalizer.normalizeForIndexing(searchTerm);
 
         String indexDir = "tmp/luceneIndex/merged";
         IndexReader reader = DirectoryReader.open(FSDirectory.open(new File(indexDir)));

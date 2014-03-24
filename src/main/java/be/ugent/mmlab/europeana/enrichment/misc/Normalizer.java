@@ -6,7 +6,12 @@ package be.ugent.mmlab.europeana.enrichment.misc;
  */
 public class Normalizer {
 
-    public static String normalize(final String input) {
+    /**
+     * Normalizes (DBPedia) labels to strings suited for indexing in Lucene. It is tuned for names.
+     * @param input    the label to index
+     * @return         the normalized label
+     */
+    public static String normalizeForIndexing(final String input) {
         // remove everything between brackets
         String normalized = input.replaceAll("[\\[\\(].*?[\\]\\)]", ""); // extra '?' -> lazy matching
 
@@ -30,9 +35,32 @@ public class Normalizer {
         normalized = normalized.replaceAll("sr", "senior");
 
 
-        return normalized;
+        return normalized.trim();
     }
 
 
+    /**
+     * Normalizes names found in Europeana records to strings suited for querying on an index created with the
+     * <code>normalizeForInexing</code> method.
+     * @param input    The name to normalize
+     * @return         The normalized name
+     */
+    public static String normalizeForQuerying(final String input) {
+        String normalized = input;
+        // remove everything before ':'
+        int colonIndex = input.indexOf(':');
+        if (colonIndex > 0) {
+            normalized = normalized.substring(colonIndex + 1);
+        }
+
+        // TODO: strip html tags?
+
+        // normalize as previous method
+        normalized = normalizeForIndexing(normalized);
+
+        // and the perform extra filtering
+        //normalized.replaceAll("");
+        return normalized;
+    }
 
 }
