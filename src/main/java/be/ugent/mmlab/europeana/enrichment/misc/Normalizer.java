@@ -25,7 +25,7 @@ public class Normalizer {
         // remove all non-word characters
         normalized = normalized.replaceAll("[\\P{L}0-9]", " ");
 
-        // remove all single characters
+        // remove all repeating spaces
         normalized = normalized.replaceAll("\\s+", " ");
 
         normalized = normalized.toLowerCase();
