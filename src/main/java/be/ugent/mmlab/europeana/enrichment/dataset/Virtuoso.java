@@ -22,7 +22,7 @@ import java.util.Set;
  * Copyright 2014 MMLab, UGent
  * Created by ghaesen on 3/18/14.
  */
-public class Virtuoso implements Dataset {
+public class Virtuoso extends AbstractDataset {
     private final Logger logger = LogManager.getLogger(this.getClass());
 
     private final String sparqlEndpoint;
@@ -53,18 +53,23 @@ public class Virtuoso implements Dataset {
 
     @Override
     public List<String> searchSubject(final String subject) {
+        // first try index search
+        List<String> dbPediaUris = super.searchSubject(subject);
 
-        // prepare query for bif:contains
-        final String nameCombinationsOr = StringCombiner.combinations(subject);  // this returns names concatenated with 'or'
-        final String nameCombinationsAnd = nameCombinationsOr.replaceAll(" or ", " and ");
-
-        // first try "and"
-        List<String> dbPediaUris = queryDBPediaForLabel(nameCombinationsAnd);
+        // try on virtuoso itself if index search fails
         if (dbPediaUris.isEmpty()) {
-            // then try "or"
-            dbPediaUris = queryDBPediaForLabel(nameCombinationsOr);
-        }
+            // prepare query for bif:contains
+            final String nameCombinationsOr = StringCombiner.combinations(subject);  // this returns names concatenated with 'or'
+            final String nameCombinationsAnd = nameCombinationsOr.replaceAll(" or ", " and ");
 
+            // first try "and"
+            dbPediaUris = queryDBPediaForLabel(nameCombinationsAnd);
+            if (dbPediaUris.isEmpty()) {
+                // then try "or"
+                dbPediaUris = queryDBPediaForLabel(nameCombinationsOr);
+            }
+
+        }
         return dbPediaUris;
     }
 

@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -25,12 +26,21 @@ public class Config {
         properties.setProperty("dataset", "sparql");
         properties.setProperty("dataset.sparql.endpoint", "http://dbpedia.org/sparql");
         properties.setProperty("dataset.hdt.file", "DBPedia-3.9-en.hdt");
+        properties.setProperty("index.enabled", "false");
+        properties.setProperty("index.label.dir", "labelIndex");
+        properties.setProperty("index.search.maxresults", "100");
         try (FileReader reader = new FileReader(propertyFile)) {
             properties.load(reader);
         } catch (IOException e) {
             logger.warn("!!!!");
             logger.warn("Cannot load configuration file {}. Using default configuration!!");
             logger.warn("Error message: {}", e.getMessage());
+        }
+        if (logger.isDebugEnabled()) {
+            logger.debug("*** Using following properties: ");
+            for (Map.Entry<Object, Object> objectObjectEntry : properties.entrySet()) {
+                logger.debug("    {} = {}", objectObjectEntry.getKey(), objectObjectEntry.getValue());
+            }
         }
     }
 
@@ -69,6 +79,18 @@ public class Config {
 
     public String getHDTFile() {
         return properties.getProperty("dataset.hdt.file");
+    }
+
+    public boolean indexEnabled() {
+        return Boolean.parseBoolean(properties.getProperty("index.enabled"));
+    }
+
+    public String getIndexDir() {
+        return properties.getProperty("index.label.dir");
+    }
+
+    public int getMaxSearchResults() {
+        return Integer.parseInt(properties.getProperty("index.search.maxresults"));
     }
 
 }

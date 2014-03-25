@@ -15,7 +15,6 @@ import org.rdfhdt.hdt.triples.TripleString;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -23,7 +22,7 @@ import java.util.List;
  * Copyright 2014 MMLab, UGent
  * Created by ghaesen on 3/18/14.
  */
-public class HDTDataset implements Dataset {
+public class HDTDataset extends AbstractDataset {
     private final Logger logger = LogManager.getLogger(this.getClass());
     private static HDTDataset instance = null;
     private HDT hdt;
@@ -46,19 +45,22 @@ public class HDTDataset implements Dataset {
 
     @Override
     public List<String> searchSubject(final String subject) {
-        logger.debug("Searching for subjects containing [{}] in HDT", subject);
-        List<String> subjectParts = StringCombiner.normalizeAndSplit(subject);
-        for (int i = 0; i < subjectParts.size(); i++) {
-            subjectParts.set(i, subjectParts.get(i).toLowerCase());
+        List<String> subjects = super.searchSubject(subject);
+        if (subjects.isEmpty()) {
+            logger.debug("Searching for subjects containing [{}] in HDT", subject);
+            List<String> subjectParts = StringCombiner.normalizeAndSplit(subject);
+            for (int i = 0; i < subjectParts.size(); i++) {
+                subjectParts.set(i, subjectParts.get(i).toLowerCase());
+            }
+            if (hdt != null) {
+                // first try literal search
+                CountArray<String> scoredEntries = iterateOn(hdt.getDictionary().getSubjects(), subjectParts);
+                CountArray<String> scoredEntries2 = iterateOn(hdt.getDictionary().getShared(), subjectParts);
+                scoredEntries.addAll(scoredEntries2);
+                subjects = scoredEntries.getSortedByCount(scoredEntries.getHighestCount());
+            }
         }
-        if (hdt != null) {
-            // first try literal search
-            CountArray<String> scoredEntries = iterateOn(hdt.getDictionary().getSubjects(), subjectParts);
-            CountArray<String> scoredEntries2 = iterateOn(hdt.getDictionary().getShared(), subjectParts);
-            scoredEntries.addAll(scoredEntries2);
-            return scoredEntries.getSortedByCount(scoredEntries.getHighestCount());
-        }
-        return Collections.emptyList();
+        return subjects;
     }
 
     @Override
