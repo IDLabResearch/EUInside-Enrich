@@ -25,12 +25,16 @@ import java.util.Set;
 public class Virtuoso implements Dataset {
     private final Logger logger = LogManager.getLogger(this.getClass());
 
-    private final String sparqlEndpoint = "http://dbpedia.org/sparql";  // TODO: via config
-    //private final String sparqlEndpoint = "http://restdesc.org:8891/sparql";
+    private final String sparqlEndpoint;
+
+    public Virtuoso(String sparqlEndpoint) {
+        this.sparqlEndpoint = sparqlEndpoint;
+    }
 
     private Set<QuerySolution> queryDBPedia(final String sparqlQuery) {
         Set<QuerySolution> solutions = new HashSet<>();
         System.out.println("sparqlQuery = " + sparqlQuery);
+
         final QueryExecution qExec = QueryExecutionFactory.sparqlService(sparqlEndpoint, sparqlQuery);
         //final QueryExecution qExec = QueryExecutionFactory.sparqlService("http://restdesc.org:8891/sparql", sparqlQuery);
         try {

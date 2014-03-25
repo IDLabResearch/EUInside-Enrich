@@ -29,6 +29,6 @@ public class TestGalileo {
         URL resourceFileUrl = getClass().getClassLoader().getResource("one_example.rdf");
         assertNotNull(resourceFileUrl);
         String inputFile = resourceFileUrl.getFile();
-        phaseOne.link(inputFile, tempTDBDir.getPath(), true);
+       // phaseOne.link(inputFile, tempTDBDir.getPath(), true);
     }
 }

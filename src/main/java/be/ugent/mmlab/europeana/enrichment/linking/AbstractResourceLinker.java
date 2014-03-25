@@ -1,7 +1,6 @@
 package be.ugent.mmlab.europeana.enrichment.linking;
 
 import be.ugent.mmlab.europeana.enrichment.dataset.Dataset;
-import be.ugent.mmlab.europeana.enrichment.dataset.HDTDataset;
 import be.ugent.mmlab.europeana.enrichment.model.CommonModelOperations;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
@@ -16,8 +15,7 @@ import java.net.URISyntaxException;
 public abstract class AbstractResourceLinker implements ResourceLinker {
     protected final Model addModel;
     protected final Model substractModel;
-    //protected final Dataset dataset = new Virtuoso();
-    protected final Dataset dataset = HDTDataset.getInstance();
+    protected final Dataset dataset;
 
     protected final CommonModelOperations addModelOps;
     protected final CommonModelOperations subModelOps;
@@ -26,9 +24,10 @@ public abstract class AbstractResourceLinker implements ResourceLinker {
     private final String host;
     private final String path;
 
-    protected AbstractResourceLinker(String host, String path) {
+    protected AbstractResourceLinker(final Dataset dataset, String host, String path) {
         this.host = host;
         this.path = path;
+        this.dataset = dataset;
         addModel = ModelFactory.createDefaultModel();
         substractModel = ModelFactory.createDefaultModel();
         addModelOps = new CommonModelOperations(addModel);

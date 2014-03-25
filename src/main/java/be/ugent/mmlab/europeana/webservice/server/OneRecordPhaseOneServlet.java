@@ -1,7 +1,7 @@
 package be.ugent.mmlab.europeana.webservice.server;
 
 import be.ugent.mmlab.europeana.enrichment2.oneRecord.EnrichService;
-import be.ugent.mmlab.europeana.enrichment2.oneRecord.EnrichServiceImpl;
+import be.ugent.mmlab.europeana.enrichment2.oneRecord.EnrichServiceFactory;
 import be.ugent.mmlab.europeana.enrichment2.oneRecord.PhaseOneResult;
 import com.google.gson.Gson;
 import org.apache.commons.io.IOUtils;
@@ -27,7 +27,7 @@ import java.util.Map;
 public class OneRecordPhaseOneServlet extends HttpServlet {
     private static Logger logger = LogManager.getLogger(OneRecordPhaseOneServlet.class);
 
-    private final EnrichService enrichService = new EnrichServiceImpl();
+    private final EnrichService enrichService = EnrichServiceFactory.create();
 
     private final Gson gson = new Gson();
 

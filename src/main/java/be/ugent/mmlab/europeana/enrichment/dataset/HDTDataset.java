@@ -28,16 +28,14 @@ public class HDTDataset implements Dataset {
     private static HDTDataset instance = null;
     private HDT hdt;
 
-    public static HDTDataset getInstance() {
+    public static HDTDataset getInstance(final String hdtFile) {
         if (instance == null) {
-            instance = new HDTDataset();
+            instance = new HDTDataset(hdtFile);
         }
         return instance;
     }
 
-    private HDTDataset() {
-        // TODO: parameter!
-        String hdtFile = "/home/ghaesen/data/dbPedia_hdt/DBPedia-3.9-en.hdt";
+    private HDTDataset(final String hdtFile) {
         logger.debug("Initializing HDT (DBPedia)");
         try {
             hdt = HDTManager.mapHDT(hdtFile, null);

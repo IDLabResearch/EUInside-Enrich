@@ -1,21 +1,23 @@
 package be.ugent.mmlab.europeana.enrichment2.bulk;
 
-import be.ugent.mmlab.europeana.enrichment.linking.CreatorResourceLinker;
-import be.ugent.mmlab.europeana.enrichment.linking.ResourceLinker;
-import be.ugent.mmlab.europeana.kb.TDB.TDBStore;
-import com.hp.hpl.jena.rdf.model.Model;
-import org.apache.commons.io.FileUtils;
+//import be.ugent.mmlab.europeana.enrichment.linking.CreatorResourceLinker;
+//import be.ugent.mmlab.europeana.enrichment.linking.ResourceLinker;
+//import be.ugent.mmlab.europeana.kb.TDB.TDBStore;
+//import com.hp.hpl.jena.rdf.model.Model;
+//import org.apache.commons.io.FileUtils;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
+//import java.io.File;
+//import java.io.IOException;
 
 /**
  * Copyright 2014 MMLab, UGent
@@ -54,31 +56,31 @@ public class BulkEnrichServiceImpl implements BulkEnrichService {
     private String processPhaseOne(final String reference) {
         String result = "OK";
 
-        File rdfFile = new File(System.getProperty("java.io.tmpdir"), reference + ".rdf.gz");
-        File tdbDir = new File(System.getProperty("java.io.tmpdir"), reference);
-        try {
-            // make jena model, as TDB store
-            logger.debug("creating jena TDB store for {}", reference);
-            TDBStore tdbStore = new TDBStore(tdbDir.getAbsolutePath());
-            tdbStore.addFromFile(rdfFile.getAbsolutePath());
-            Model model = tdbStore.getDataset().getDefaultModel();
-            logger.debug("TDBStore for {} successfully created. Starting phase one enrichment", reference);
-
-            // enrich. TODO: create resource linkers another way!
-            ResourceLinker creatorResourceLinker = new CreatorResourceLinker("localhost", "/agents/");
-            creatorResourceLinker.link(model);
-
-            logger.debug("Phase one enrichment of {} done.", reference);
-
-            // TODO set status done
-
-        } catch (IOException e) {
-            result = "ERROR: " + e.getMessage();
-            rdfFile.delete();
-            try {FileUtils.deleteDirectory(tdbDir);} catch (IOException e1) {/* who cares */}
-            // TODO set status failed
-        }
-
+//        File rdfFile = new File(System.getProperty("java.io.tmpdir"), reference + ".rdf.gz");
+//        File tdbDir = new File(System.getProperty("java.io.tmpdir"), reference);
+//        try {
+//            // make jena model, as TDB store
+//            logger.debug("creating jena TDB store for {}", reference);
+//            TDBStore tdbStore = new TDBStore(tdbDir.getAbsolutePath());
+//            tdbStore.addFromFile(rdfFile.getAbsolutePath());
+//            Model model = tdbStore.getDataset().getDefaultModel();
+//            logger.debug("TDBStore for {} successfully created. Starting phase one enrichment", reference);
+//
+//            // enrich. TODO: create resource linkers another way!
+//            ResourceLinker creatorResourceLinker = new CreatorResourceLinker("localhost", "/agents/");
+//            creatorResourceLinker.link(model);
+//
+//            logger.debug("Phase one enrichment of {} done.", reference);
+//
+//            // TODO set status done
+//
+//        } catch (IOException e) {
+//            result = "ERROR: " + e.getMessage();
+//            rdfFile.delete();
+//            try {FileUtils.deleteDirectory(tdbDir);} catch (IOException e1) {/* who cares */}
+//            // TODO set status failed
+//        }
+//
 
 //        // make hdt object
 //        try {

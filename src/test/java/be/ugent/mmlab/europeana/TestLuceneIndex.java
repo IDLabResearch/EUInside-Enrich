@@ -36,7 +36,7 @@ public class TestLuceneIndex {
 
     @Test
     public void testReadAndQuery() throws IOException, ParseException {
-        String searchTerm = "Adams George";
+        String searchTerm = "George Adams Junior";
         searchTerm = Normalizer.normalizeForIndexing(searchTerm);
 
         String indexDir = "tmp/luceneIndex/merged";

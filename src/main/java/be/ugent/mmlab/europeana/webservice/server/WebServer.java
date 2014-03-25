@@ -1,5 +1,7 @@
 package be.ugent.mmlab.europeana.webservice.server;
 
+import be.ugent.mmlab.europeana.enrichment.config.Config;
+import org.apache.commons.cli.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -39,9 +41,10 @@ public class WebServer {
         context.setConfigurationClasses(configurationClasses);
         //// END dirty hack
 
+        String tmpDir = Config.getInstance().getTmpDir();
         context.setContextPath("/enrich/");
-        context.setTempDirectory(new File("/tmp/jetty"));
-        context.setResourceBase("/tmp/jetty");
+        context.setTempDirectory(new File(tmpDir, "jetty"));
+        context.setResourceBase(tmpDir + "/jetty");
 
         // set gzip compression support.
         FilterHolder gzipFilter = new FilterHolder(new GzipFilter());
@@ -62,18 +65,51 @@ public class WebServer {
     }
 
     public static void main(String[] args) throws Exception {
-        int port = 8080;    // TODO argument
-        WebServer webService = new WebServer(port);
-        webService.start();
+        Options options = new Options();
+        options.addOption("h", "help", false, "Print this help message.");
+        options.addOption(OptionBuilder
+                .withArgName("port number")
+                .withLongOpt("port")
+                .withDescription("The port the web server listens at.")
+                .isRequired(true)
+                .hasArg().create('p')
+        );
+        options.addOption(OptionBuilder
+                .withArgName("configuration file")
+                .withLongOpt("config")
+                .withDescription("The configuration file.")
+                .isRequired(true)
+                .hasArg().create('c')
+        );
 
-        /*Runtime runtime = Runtime.getRuntime();
-        runtime.addShutdownHook(new Thread(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("Shutting down record handler...");
-                RecordHandler recordHandler = RecordHandlerFactory.create();
-                recordHandler.close();
+        boolean printHelp = false;
+        CommandLineParser parser = new BasicParser();
+
+        try {
+            CommandLine commandLine = parser.parse(options, args);
+            if (commandLine.hasOption('h')) {
+                printHelp = true;
+                return;
             }
-        }));*/
+            int port = Integer.parseInt(commandLine.getOptionValue('p'));
+            String configFile = commandLine.getOptionValue('c');
+
+            Config.init(configFile);
+            WebServer webService = new WebServer(port);
+            webService.start();
+
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+            printHelp = true;
+        } finally {
+            if (printHelp) {
+                HelpFormatter formatter = new HelpFormatter();
+                formatter.printHelp(WebServer.class.getSimpleName(), "Starts a web interface to the enrich service.", options, "");
+            }
+        }
+    }
+
+    private static void printHelp() {
+
     }
 }

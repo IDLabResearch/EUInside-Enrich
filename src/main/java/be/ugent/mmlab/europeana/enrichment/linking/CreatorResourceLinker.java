@@ -1,5 +1,6 @@
 package be.ugent.mmlab.europeana.enrichment.linking;
 
+import be.ugent.mmlab.europeana.enrichment.dataset.Dataset;
 import be.ugent.mmlab.europeana.enrichment.model.CommonModelOperations;
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Triple;
@@ -18,8 +19,8 @@ import java.util.Set;
  */
 public class CreatorResourceLinker extends AbstractResourceLinker {
 
-    public CreatorResourceLinker(final String host, final String path) {
-        super(host, path);
+    public CreatorResourceLinker(final String host, final String path, final Dataset dataset) {
+        super(dataset, host, path);
     }
 
     public void link(final Model model) {

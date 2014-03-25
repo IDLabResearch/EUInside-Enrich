@@ -149,7 +149,7 @@ public class TestHDT {
 
     private void searchAndPrint(final String subject) {
         System.out.println("==== " + subject + " ====");
-        Dataset dataset = HDTDataset.getInstance();
+        Dataset dataset = HDTDataset.getInstance("/home/ghaesen/data/dbPedia_hdt/DBPedia-3.9-en.hdt");
         List<String> subjects = dataset.searchSubject(subject);
         for (String s : subjects) {
             System.out.println(" --> " + s);

@@ -1,9 +1,8 @@
 package be.ugent.mmlab.europeana.enrichment2.oneRecord;
 
 import be.ugent.mmlab.europeana.enrichment.dataset.Dataset;
-import be.ugent.mmlab.europeana.enrichment.dataset.HDTDataset;
+import be.ugent.mmlab.europeana.enrichment.dataset.DatasetFactory;
 import be.ugent.mmlab.europeana.enrichment.enriching.Extender;
-import be.ugent.mmlab.europeana.enrichment.linking.CreatorResourceLinker;
 import be.ugent.mmlab.europeana.enrichment.linking.ResourceLinker;
 import be.ugent.mmlab.europeana.enrichment.model.CommonModelOperations;
 import com.hp.hpl.jena.rdf.model.*;
@@ -11,7 +10,6 @@ import com.hp.hpl.jena.rdf.model.*;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,9 +20,15 @@ import java.util.Set;
  */
 public class EnrichServiceImpl implements EnrichService {
 
+    private final Set<ResourceLinker> resourceLinkers;
+
+    public EnrichServiceImpl(Set<ResourceLinker> resourceLinkers) {
+        this.resourceLinkers = resourceLinkers;
+    }
+
+
     @Override
     public PhaseOneResult phaseOne(final String record) throws IOException {
-        Set<ResourceLinker> resourceLinkers = initResourceLinkers();
         Model model = ModelFactory.createDefaultModel();
         model.read(new StringReader(record), null);
         for (ResourceLinker resourceLinker : resourceLinkers) {
@@ -33,13 +37,6 @@ public class EnrichServiceImpl implements EnrichService {
 
         long modelReference = ModelCache.getInstance().add(model);
         return getPossibleCandidates(model, modelReference);
-    }
-
-    private Set<ResourceLinker> initResourceLinkers() {
-        // TODO do this in factory, later on
-        final Set<ResourceLinker> resourceLinkers = new HashSet<>();
-        resourceLinkers.add(new CreatorResourceLinker("localhost", "/agents/"));
-        return resourceLinkers;
     }
 
     private PhaseOneResult getPossibleCandidates(final Model model, final long reference) {
@@ -61,8 +58,7 @@ public class EnrichServiceImpl implements EnrichService {
         Model model = cache.get(reference);
         if (model != null) {
             CommonModelOperations modelOperations = new CommonModelOperations(model);
-            Dataset dataset = HDTDataset.getInstance();
-            //Dataset dataset = new Virtuoso();
+            Dataset dataset = DatasetFactory.get();
             Extender extender = new Extender(dataset);
 
             for (Map.Entry<String, String> subjectToSameAs : subjectToURI.entrySet()) {
