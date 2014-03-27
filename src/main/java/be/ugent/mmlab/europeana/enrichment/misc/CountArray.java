@@ -115,4 +115,16 @@ public class CountArray<C extends Comparable<C>> {
         return sortedByCount;
     }
 
+    public List<C> getSortedByCountMax(int maxItems) {
+        List<CountObject<C>> objectsByCount = new ArrayList<>();
+        objectsByCount.addAll(countObjects.values());
+        Collections.sort(objectsByCount);
+
+        List<C> sortedByCount = new ArrayList<>(maxItems);
+        for (int i = 0; i < Math.min(maxItems, objectsByCount.size()); i++) {
+            sortedByCount.add(objectsByCount.get(i).cObject);
+        }
+        return sortedByCount;
+    }
+
 }

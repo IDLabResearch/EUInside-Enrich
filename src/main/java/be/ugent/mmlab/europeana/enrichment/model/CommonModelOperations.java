@@ -199,16 +199,6 @@ public class CommonModelOperations {
         return result;
     }
 
-    public Set<Resource> getSubjectsFor(final Resource object) {
-        Set<Resource> result = new HashSet<>();
-        ResIterator resourceIter = model.listSubjectsWithProperty(rdfNodeFactory.getDctermsSubject(), object);
-        while (resourceIter.hasNext()) {
-            Resource subject = resourceIter.nextResource();
-            result.add(subject);
-        }
-        return result;
-    }
-
     public void addRelated(final Resource subject, final List<String> relatedResources) {
         for (String relatedResource : relatedResources) {
             model.add(subject, rdfNodeFactory.getEdmIsRelatedTo(), relatedResource);

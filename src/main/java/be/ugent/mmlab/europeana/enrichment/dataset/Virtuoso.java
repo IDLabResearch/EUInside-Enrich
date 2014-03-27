@@ -13,10 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Copyright 2014 MMLab, UGent
@@ -71,6 +68,20 @@ public class Virtuoso extends AbstractDataset {
 
         }
         return dbPediaUris;
+    }
+
+    @Override
+    public Collection<String> searchSubject(String predicate, String object) {
+        List<String> solutions = new ArrayList<>();
+        String query = "select ?subject\n" +
+                "where {\n" +
+                " ?subject <" + predicate + "> <" + object + ">\n" +
+                "} LIMIT 1000";
+        Set<QuerySolution> querySolutions = queryDBPedia(query);
+        for (QuerySolution querySolution : querySolutions) {
+            solutions.add(querySolution.get("subject").asResource().getURI());
+        }
+        return solutions;
     }
 
     @Override

@@ -15,6 +15,8 @@ import org.rdfhdt.hdt.triples.TripleString;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -37,7 +39,7 @@ public class HDTDataset extends AbstractDataset {
     private HDTDataset(final String hdtFile) {
         logger.debug("Initializing HDT (DBPedia)");
         try {
-            hdt = HDTManager.mapHDT(hdtFile, null);
+            hdt = HDTManager.mapIndexedHDT(hdtFile, null);
         } catch (IOException e) {
             logger.error("Could not load HDT file {}", e);
         }
@@ -83,6 +85,25 @@ public class HDTDataset extends AbstractDataset {
             logger.error("Subject {} not found!", subjectResource, e);
             return null;
         }
+    }
+
+    public Collection<String> searchSubject(final String predicate, final String object) {
+        List<String> subjects = new ArrayList<>();
+        logger.debug("Searching for subjects with predicate [{}] and object [{}]", predicate, object);
+        try {
+            IteratorTripleString tripleIter = hdt.search("", predicate, object);
+            if (tripleIter.estimatedNumResults() < 10000) {    // TODO make parameter
+                while (tripleIter.hasNext()) {
+                    TripleString tripleString = tripleIter.next();
+                    subjects.add(tripleString.getSubject().toString());
+                }
+            } else {
+                logger.debug("Too many subject for [{}]", object);
+            }
+        } catch (NotFoundException e) {
+            logger.error("No subjects found for predicate [{}] and object [{}]!", predicate, object, e);
+        }
+        return subjects;
     }
 
     private CountArray<String> iterateOn(final DictionarySection dictionarySection, final List<String> subject) {

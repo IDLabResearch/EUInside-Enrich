@@ -1,5 +1,6 @@
 package be.ugent.mmlab.europeana.enrichment.enriching;
 
+import be.ugent.mmlab.europeana.enrichment.config.Config;
 import be.ugent.mmlab.europeana.enrichment.dataset.Dataset;
 import be.ugent.mmlab.europeana.enrichment.misc.CountArray;
 import be.ugent.mmlab.europeana.enrichment.model.CommonModelOperations;
@@ -8,6 +9,7 @@ import com.hp.hpl.jena.rdf.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -17,6 +19,7 @@ import java.util.List;
 public class Extender {
     private final Logger logger = LogManager.getLogger(this.getClass().getName());
     private final Dataset dataset;
+    private final RdfNodeFactory nodeFactory = RdfNodeFactory.getInstance();
 
     public Extender(Dataset dataset) {
         this.dataset = dataset;
@@ -64,17 +67,14 @@ public class Extender {
         for (Resource subject : subjects) {
             String uri = subject.getURI();
             if (!uri.endsWith("unknown") && !uri.endsWith("missing") && !uri.endsWith("births") && !uri.endsWith("deaths")) {
-                Model subjectModel = dataset.getModelFor(uri);
-                if (subjectModel != null) {
-                    CommonModelOperations modelOps = new CommonModelOperations(subjectModel);
-                    for (Resource resource : modelOps.getSubjectsFor(subject)) {
-                        relatedSubjects.add(resource.getURI());
-                    }
-                }
+
+                // the subject becomes object of the triples ti find.
+                Collection<String> rSubjects = dataset.searchSubject(nodeFactory.getDctermsSubject().getURI(), uri);
+                relatedSubjects.addAll(rSubjects);
             }
         }
 
-        return relatedSubjects.getSortedByCount(relatedSubjects.getHighestCount());
+        return relatedSubjects.getSortedByCountMax(Config.getInstance().getMaxSearchResults());
     }
 
     private String checkForRedirect(final Model model) {
