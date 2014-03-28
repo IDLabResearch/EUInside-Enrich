@@ -201,7 +201,7 @@ public class CommonModelOperations {
 
     public void addRelated(final Resource subject, final List<String> relatedResources) {
         for (String relatedResource : relatedResources) {
-            model.add(subject, rdfNodeFactory.getEdmIsRelatedTo(), relatedResource);
+            model.add(subject, rdfNodeFactory.getEdmIsRelatedTo(), ResourceFactory.createResource(relatedResource));
         }
     }
 
