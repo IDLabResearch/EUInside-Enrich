@@ -26,15 +26,13 @@ public class CreatorResourceLinker extends AbstractResourceLinker {
     public void link(final Model model) {
         CommonModelOperations modelOperations = new CommonModelOperations(model);
         Set<Triple> creatorTriples = modelOperations.getCreatorTriples();
-        for (Triple creatorTriple : creatorTriples) {
-            if (creatorTriple.getObject().isLiteral()) {
-                try {
-                    addCreator(creatorTriple);
-                } catch (MalformedURLException | URISyntaxException e) {
-                    e.printStackTrace();
-                }
+        creatorTriples.stream().filter(creatorTriple -> creatorTriple.getObject().isLiteral()).forEach(creatorTriple -> {
+            try {
+                addCreator(creatorTriple);
+            } catch (MalformedURLException | URISyntaxException e) {
+                e.printStackTrace();
             }
-        }
+        });
         mergeResult(model);
     }
 

@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Copyright 2014 MMLab, UGent
@@ -78,9 +79,9 @@ public class Virtuoso extends AbstractDataset {
                 " ?subject <" + predicate + "> <" + object + ">\n" +
                 "} LIMIT 1000";
         Set<QuerySolution> querySolutions = queryDBPedia(query);
-        for (QuerySolution querySolution : querySolutions) {
-            solutions.add(querySolution.get("subject").asResource().getURI());
-        }
+        solutions.addAll(querySolutions.stream()
+                .map(querySolution -> querySolution.get("subject").asResource().getURI())
+                .collect(Collectors.toList()));
         return solutions;
     }
 
@@ -124,9 +125,9 @@ public class Virtuoso extends AbstractDataset {
                 //"            ?s dcterms:subject ?sub \n" +
                 "}";
         Set<QuerySolution> querySolutions = queryDBPedia(query);
-        for (QuerySolution querySolution : querySolutions) {
-            solutions.add(querySolution.get("s").asResource().getURI());
-        }
+        solutions.addAll(querySolutions.stream()
+                .map(querySolution -> querySolution.get("s").asResource().getURI())
+                .collect(Collectors.toList()));
         return solutions;
     }
 }

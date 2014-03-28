@@ -15,15 +15,15 @@ public class Normalizer {
         // remove everything between brackets
         String normalized = input.replaceAll("[\\[\\(].*?[\\]\\)]", ""); // extra '?' -> lazy matching
 
-        // remove words starting with lower case
-        normalized = normalized.replaceAll("\\s\\p{javaLowerCase}+", " ");
-        normalized = normalized.replaceAll("^\\p{javaLowerCase}+", "");
-
         // remove accents and diacritics
         normalized = java.text.Normalizer.normalize(normalized, java.text.Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
 
         // remove all non-word characters
         normalized = normalized.replaceAll("[\\P{L}0-9]", " ");
+
+        // remove 1- or 2-letter words starting with lower case
+        normalized = normalized.replaceAll("\\s\\p{javaLowerCase}{1,2}\\s", " ");
+        normalized = normalized.replaceAll("^\\p{javaLowerCase}{1,2}\\s", "");
 
         // remove all repeating spaces
         normalized = normalized.replaceAll("\\s+", " ");

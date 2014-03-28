@@ -40,26 +40,26 @@ public class LuceneIndexWriter {
     }
 
     public void process(final BufferedReader in) throws IOException, InterruptedException {
-        File indexDir = new File(luceneIndexPath);
-        if (indexDir.exists()) {
-            FileUtils.cleanDirectory(indexDir);
-        }
-
-        long lineNr = 0;
-        String line;
-        StringBuilder str = new StringBuilder(100000);
-        while ((line = in.readLine()) != null) {
-            if (!line.startsWith("#")) {
-                lineNr++;
-                str.append(line).append('\n');
-                if (lineNr % 10000 == 0) {
-                    queue.put(str.toString());
-                    str = new StringBuilder(100000);
-                    logger.debug("Sumitted {} lines for processing", lineNr);
-                }
-            }
-        }
-        queue.put(str.toString());
+//        File indexDir = new File(luceneIndexPath);
+//        if (indexDir.exists()) {
+//            FileUtils.cleanDirectory(indexDir);
+//        }
+//
+//        long lineNr = 0;
+//        String line;
+//        StringBuilder str = new StringBuilder(100000);
+//        while ((line = in.readLine()) != null) {
+//            if (!line.startsWith("#")) {
+//                lineNr++;
+//                str.append(line).append('\n');
+//                if (lineNr % 10000 == 0) {
+//                    queue.put(str.toString());
+//                    str = new StringBuilder(100000);
+//                    logger.debug("Sumitted {} lines for processing", lineNr);
+//                }
+//            }
+//        }
+//        queue.put(str.toString());
         for (int i = 0; i < nrProcessors; i++) {
             queue.put("STOP");
         }
@@ -168,12 +168,7 @@ public class LuceneIndexWriter {
             writer = new IndexWriter(indexDir, config);
 
             File indexRoot = new File(luceneIndexPath);
-            File[] indicesToMerge = indexRoot.listFiles(new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String name) {
-                    return name.contains("_");
-                }
-            });
+            File[] indicesToMerge = indexRoot.listFiles((dir, name) -> name.contains("_"));
 
             Directory[] indexDirsToMerge = new Directory[indicesToMerge.length];
             for (int i = 0; i < indicesToMerge.length; i++) {

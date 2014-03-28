@@ -1,6 +1,7 @@
 package be.ugent.mmlab.europeana.enrichment.misc;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Copyright 2014 MMLab, UGent
@@ -78,9 +79,7 @@ public class CountArray<C extends Comparable<C>> {
     }
 
     public void addAll(final Collection<C> collection) {
-        for (C c : collection) {
-            add(c);
-        }
+        collection.forEach(this::add);
     }
 
     public void addAll(final CountArray<C> countArray) {
@@ -101,18 +100,13 @@ public class CountArray<C extends Comparable<C>> {
     }
 
     public List<C> getSortedByCount(int minimumCount) {
-        List<CountObject<C>> objectsByCount = new ArrayList<>();
-        for (CountObject<C> countObject : countObjects.values()) {
-            if (countObject.count >= minimumCount) {
-                objectsByCount.add(countObject);
-            }
-        }
+        List<CountObject<C>> objectsByCount = countObjects.values().stream()
+                .filter(countObject -> countObject.count >= minimumCount)
+                .map(countObject -> countObject).collect(Collectors.toList());
         Collections.sort(objectsByCount);
-        List<C> sortedByCount = new ArrayList<>();
-        for (CountObject<C> cCountObject : objectsByCount) {
-            sortedByCount.add(cCountObject.cObject);
-        }
-        return sortedByCount;
+        return objectsByCount.stream()
+                .map(cCountObject -> cCountObject.cObject)
+                .collect(Collectors.toList());
     }
 
     public List<C> getSortedByCountMax(int maxItems) {

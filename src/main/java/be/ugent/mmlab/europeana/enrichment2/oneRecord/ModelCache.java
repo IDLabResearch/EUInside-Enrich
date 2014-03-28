@@ -34,12 +34,10 @@ public class ModelCache {
             public void run() {
                 logger.debug("Clearing cache");
                 long now = System.currentTimeMillis();
-                for (Long timestamp : referenceToModel.keySet()) {
-                    if (timestamp < now - cleanUpDelay) {
-                        logger.debug("Deleting cached model with reference {}", timestamp);
-                        referenceToModel.remove(timestamp);
-                    }
-                }
+                referenceToModel.keySet().stream().filter(timestamp -> timestamp < now - cleanUpDelay).forEach(timestamp -> {
+                    logger.debug("Deleting cached model with reference {}", timestamp);
+                    referenceToModel.remove(timestamp);
+                });
             }
         }, cleanUpDelay, cleanUpDelay, TimeUnit.MILLISECONDS);
     }

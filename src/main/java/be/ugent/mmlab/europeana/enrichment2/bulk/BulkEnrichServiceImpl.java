@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -44,12 +43,7 @@ public class BulkEnrichServiceImpl implements BulkEnrichService {
     @Override
     public void phaseOne(final String reference) {
 
-        Future<String> future = executorService.submit(new Callable<String>() {
-            @Override
-            public String call() throws Exception {
-                return processPhaseOne(reference);
-            }
-        });
+        Future<String> future = executorService.submit(() -> processPhaseOne(reference));
         reference2PhaseOneMap.put(reference, future);
     }
 
