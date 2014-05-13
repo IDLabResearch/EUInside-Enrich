@@ -13,7 +13,8 @@ public class Normalizer {
      */
     public static String normalizeForIndexing(final String input) {
         // remove everything between brackets
-        String normalized = input.replaceAll("[\\[\\(].*?[\\]\\)]", ""); // extra '?' -> lazy matching
+        String normalized = input.replaceAll("\\[.*?\\]", ""); // extra '?' -> lazy matching
+        normalized = normalized.replaceAll("\\(.*?\\)", ""); // extra '?' -> lazy matching
 
         // remove accents and diacritics
         normalized = java.text.Normalizer.normalize(normalized, java.text.Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
