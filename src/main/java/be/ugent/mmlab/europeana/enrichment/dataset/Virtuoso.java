@@ -34,7 +34,6 @@ public class Virtuoso extends AbstractDataset {
         System.out.println("sparqlQuery = " + sparqlQuery);
 
         final QueryExecution qExec = QueryExecutionFactory.sparqlService(sparqlEndpoint, sparqlQuery);
-        //final QueryExecution qExec = QueryExecutionFactory.sparqlService("http://restdesc.org:8891/sparql", sparqlQuery);
         try {
 
             ResultSet resultSet = qExec.execSelect();
