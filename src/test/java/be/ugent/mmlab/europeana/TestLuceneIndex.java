@@ -45,9 +45,9 @@ public class TestLuceneIndex {
         String indexDir = "/home/ghaesen/data/dbPedia_luceneindex/merged";
         IndexReader reader = DirectoryReader.open(FSDirectory.open(new File(indexDir)));
         IndexSearcher searcher = new IndexSearcher(reader);
-        Analyzer analyzer = new WhitespaceAnalyzer(Version.LUCENE_47);
+        Analyzer analyzer = new WhitespaceAnalyzer(Version.LUCENE_48);
         //searcher.
-        QueryParser parser = new QueryParser(Version.LUCENE_47, "label", analyzer);
+        QueryParser parser = new QueryParser(Version.LUCENE_48, "label", analyzer);
         Query query = parser.parse(searchTerm);
         System.out.println("query = " + query.toString());
 
@@ -68,7 +68,7 @@ public class TestLuceneIndex {
     public void testLabelIndex() throws IOException {
         String name = "George Adams Junior";
 
-        LabelIndex labelIndex = LabelIndex.getInstance(Version.LUCENE_47,
+        LabelIndex labelIndex = LabelIndex.getInstance(Version.LUCENE_48,
                 "/home/ghaesen/data/dbPedia_luceneindex/merged",
                 30);
 

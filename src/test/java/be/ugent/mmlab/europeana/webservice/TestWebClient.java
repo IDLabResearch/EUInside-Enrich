@@ -17,6 +17,7 @@ import java.util.Map;
 public class TestWebClient {
 
     private final String baseUri = "http://localhost:8080/enrich";
+	//private final String baseUri = "http://yuca.test.iminds.be:8915/enrich";
     private WebClient client = new WebClient(baseUri);
 
     @Test

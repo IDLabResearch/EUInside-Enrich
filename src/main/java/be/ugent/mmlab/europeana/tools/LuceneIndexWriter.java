@@ -26,7 +26,7 @@ import java.util.concurrent.*;
  * Created by ghaesen on 3/20/14.
  */
 public class LuceneIndexWriter {
-    private static Version lVersion = Version.LUCENE_47;
+    private static Version lVersion = Version.LUCENE_48;
 
     private final Logger logger = LogManager.getLogger(this.getClass());
 
@@ -40,26 +40,26 @@ public class LuceneIndexWriter {
     }
 
     public void process(final BufferedReader in) throws IOException, InterruptedException {
-//        File indexDir = new File(luceneIndexPath);
-//        if (indexDir.exists()) {
-//            FileUtils.cleanDirectory(indexDir);
-//        }
-//
-//        long lineNr = 0;
-//        String line;
-//        StringBuilder str = new StringBuilder(100000);
-//        while ((line = in.readLine()) != null) {
-//            if (!line.startsWith("#")) {
-//                lineNr++;
-//                str.append(line).append('\n');
-//                if (lineNr % 10000 == 0) {
-//                    queue.put(str.toString());
-//                    str = new StringBuilder(100000);
-//                    logger.debug("Sumitted {} lines for processing", lineNr);
-//                }
-//            }
-//        }
-//        queue.put(str.toString());
+        File indexDir = new File(luceneIndexPath);
+        if (indexDir.exists()) {
+            FileUtils.cleanDirectory(indexDir);
+        }
+
+        long lineNr = 0;
+        String line;
+        StringBuilder str = new StringBuilder(100000);
+        while ((line = in.readLine()) != null) {
+            if (!line.startsWith("#")) {
+                lineNr++;
+                str.append(line).append('\n');
+                if (lineNr % 10000 == 0) {
+                    queue.put(str.toString());
+                    str = new StringBuilder(100000);
+                    logger.debug("Sumitted {} lines for processing", lineNr);
+                }
+            }
+        }
+        queue.put(str.toString());
         for (int i = 0; i < nrProcessors; i++) {
             queue.put("STOP");
         }

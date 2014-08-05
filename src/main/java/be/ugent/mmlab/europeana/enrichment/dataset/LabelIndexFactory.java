@@ -18,7 +18,7 @@ public class LabelIndexFactory {
         Config config = Config.getInstance();
         if (config.indexEnabled()) {
             try {
-                return LabelIndex.getInstance(Version.LUCENE_47, config.getIndexDir(), config.getMaxSearchResults());
+                return LabelIndex.getInstance(Version.LUCENE_48, config.getIndexDir(), config.getMaxSearchResults());
             } catch (IOException e) {
                 logger.warn("Could not create index!", e);
             }
