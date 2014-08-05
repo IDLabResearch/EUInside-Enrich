@@ -13,9 +13,12 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -90,8 +93,9 @@ public class OneRecordPhaseTwoServlet extends HttpServlet {
         response.setContentType("application/rdf+xml");
         response.setCharacterEncoding("UTF-8");
 
-        try(PrintWriter out = response.getWriter()) {
-            out.print(enrichedRecord);
-        }
+		try (BufferedWriter out = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8))) {
+			out.append(enrichedRecord);
+			out.flush();
+		}
     }
 }
