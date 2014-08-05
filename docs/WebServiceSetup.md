@@ -93,3 +93,5 @@ An example bash script to create an index from DBpedia labels:
     LABEL_FILE=enrich.properties
 
     $JAVA_JRE/bin/java -cp enrich-all-1.0-SNAPSHOT.jar be.ugent.mmlab.europeana.tools.LuceneIndexWriter $LABEL_FILE
+
+The DBpedia labels file can be found at [http://downloads.dbpedia.org/3.9/en/](http://downloads.dbpedia.org/3.9/en/). 
