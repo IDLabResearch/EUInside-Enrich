@@ -1,4 +1,4 @@
-package be.ugent.mmlab.europeana.enrichment2.oneRecord;
+package be.ugent.mmlab.europeana.enrichment.oneRecord;
 
 import be.ugent.mmlab.europeana.enrichment.config.Config;
 import be.ugent.mmlab.europeana.enrichment.dataset.Dataset;

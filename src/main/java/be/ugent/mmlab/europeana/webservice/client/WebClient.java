@@ -1,6 +1,6 @@
 package be.ugent.mmlab.europeana.webservice.client;
 
-import be.ugent.mmlab.europeana.enrichment2.oneRecord.PhaseOneResult;
+import be.ugent.mmlab.europeana.enrichment.oneRecord.PhaseOneResult;
 import com.google.gson.Gson;
 import org.apache.http.Consts;
 import org.apache.http.client.fluent.Request;

@@ -1,7 +1,7 @@
 package be.ugent.mmlab.europeana.webservice.server;
 
-import be.ugent.mmlab.europeana.enrichment2.oneRecord.EnrichService;
-import be.ugent.mmlab.europeana.enrichment2.oneRecord.EnrichServiceFactory;
+import be.ugent.mmlab.europeana.enrichment.oneRecord.EnrichService;
+import be.ugent.mmlab.europeana.enrichment.oneRecord.EnrichServiceFactory;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.io.IOUtils;

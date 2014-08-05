@@ -1,4 +1,4 @@
-package be.ugent.mmlab.europeana.enrichment2.oneRecord;
+package be.ugent.mmlab.europeana.enrichment.oneRecord;
 
 import java.io.IOException;
 import java.util.Map;
