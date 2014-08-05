@@ -71,7 +71,7 @@ important thing is the last line, where the right class is invoked with the righ
 
     $JAVA_JRE/bin/java -Xmx1000m -cp enrich-all-1.0-SNAPSHOT.jar be.ugent.mmlab.europeana.webservice.server.WebServer -p $PORT -c $CONFIG
     
-## Creating a Lucene index <a name="lucene'/>
+## Creating a Lucene index <a name="lucene"/>
 
 To speed up searching, the [label](http://www.w3.org/2000/01/rdf-schema#label) triples of a data set can be indexed.
 These triples map a concept to a resource, e.g.:
