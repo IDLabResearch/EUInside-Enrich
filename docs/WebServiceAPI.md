@@ -5,7 +5,7 @@ All `HTTP` requests are start with this URI. For instance, for the demo
 service, this is `http://yuca.test.iminds.be:8915/enrich/`.
 
 ## 1. Post a record for disambiguation
-Use this method to post a valid EDM record to the web service. The resonse
+Use this method to post a valid [EDM](http://pro.europeana.eu/edm-documentation) record to the web service. The resonse
 is a JSON document that contains a unique reference for future use and a
 mapping of objects to possible URI's. The posted document stays one day
 available for use on the server.
