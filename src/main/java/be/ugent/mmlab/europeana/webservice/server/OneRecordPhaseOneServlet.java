@@ -49,7 +49,7 @@ public class OneRecordPhaseOneServlet extends HttpServlet {
             } else if (contentType.startsWith("application/rdf+xml")) {
                 processPost(request, response);
             } else {
-                response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "Only application/x-www-form-urlencoded of application/rdf+xml is supported at this moment");
+                response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "Only application/x-www-form-urlencoded or application/rdf+xml is supported at this moment");
             }
         } catch (Throwable t) {
             logger.error("Could not process record", t);
